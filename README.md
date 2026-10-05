@@ -9,6 +9,8 @@ Corre sobre **CachyOS** (Arch) con **Hyprland 0.56** y su configuración en
 
 ![Escritorio](screenshots/escritorio.jpg)
 
+🎬 [Ver el video de demostración](videos/demo.mp4) (40 s, 1080p60)
+
 | Lanzador | Terminal |
 |---|---|
 | ![Lanzador](screenshots/lanzador.jpg) | ![Terminal](screenshots/terminal.jpg) |
