@@ -14,6 +14,7 @@
 import QtQuick
 import QtQuick.Effects
 import Quickshell
+import Quickshell.Io
 import Quickshell.Wayland
 import Quickshell.Hyprland
 
@@ -34,6 +35,19 @@ ShellRoot {
     readonly property string noiseSrc: "file://" + Quickshell.env("HOME") + "/.config/quickshell/rice-noise/specks-apps.png"   // puntitos del fondo, más espaciados (4% vs 9%)
     readonly property var systemApps: /^(kitty|Alacritty|rice-float|rice-launcher|org\.kde\..*|org\.gnome\..*|org\.pulseaudio\.pavucontrol|com\.github\.wwmm\.easyeffects|com\.interversehq\.qView|nwg-look|qt[56]ct|kvantummanager|blueman-.*|nm-.*|dev\.lemmy\.swash|.*cachyos.*|org\.cachyos\..*|btop)$/
     readonly property string grainSrc: "file://" + Quickshell.shellDir + "/grain.png"
+
+    // Super+F12 (shader.lua) apaga/prende el ruido de las apps junto con el CRT:
+    //   qs -c rice-static ipc call static setNoise false
+    // Al arrancar lee el último estado de $XDG_RUNTIME_DIR/rice-crt-state.
+    property bool noiseOn: true
+    IpcHandler {
+        target: "static"
+        function setNoise(on: bool): void { root.noiseOn = on }
+    }
+    FileView {
+        path: Quickshell.env("XDG_RUNTIME_DIR") + "/rice-crt-state"
+        onLoaded: root.noiseOn = text().trim() !== "off"
+    }
 
     // Datos de la ventana activa (Hyprland IPC)
     readonly property var win: Hyprland.activeToplevel?.lastIpcObject ?? null
@@ -188,7 +202,7 @@ ShellRoot {
 
                 // Ruido sobre cada app del sistema visible en este monitor
                 Repeater {
-                    model: root.appNoise <= 0 ? [] : Hyprland.toplevels.values.filter(t => {
+                    model: (root.appNoise <= 0 || !root.noiseOn) ? [] : Hyprland.toplevels.values.filter(t => {
                         const o = t.lastIpcObject;
                         return o && o.at && o.size && root.systemApps.test(o.class || "")
                             && !o.hidden && o.fullscreen === 0 && o.workspace

@@ -10,3 +10,8 @@ user_pref("zen.widget.linux.transparency", true);        // fondo transparente �
 user_pref("ui.systemUsesDarkTheme", 1);                  // interfaz oscura
 user_pref("layout.css.prefers-color-scheme.content-override", 0); // pedirle a las páginas su versión oscura
 user_pref("browser.display.use_system_colors", false);
+
+// Ruedita del mouse (clic del medio) en una página = desplazamiento automático
+// como en Windows: aparece el ícono de flechas y la página sube/baja según
+// hacia dónde muevas el mouse. En campos de texto el clic del medio sigue pegando.
+user_pref("general.autoScroll", true);

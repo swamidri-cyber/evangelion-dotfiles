@@ -46,9 +46,22 @@ end
 -- Aplica el estado actual. Con curvatura se usa cursor por software: así la
 -- flecha se deforma junto con la imagen y siempre señala lo que realmente
 -- vas a clickear (ver explicación en crt.frag / mensaje del rice).
+-- El ruido de las apps (Quickshell rice-static) sigue al CRT: se le avisa por
+-- IPC solo cuando cambia, y el estado queda en un archivo por si rice-static
+-- arranca/reinicia después.
+local noiseState = nil
+local function syncNoise(on)
+    if noiseState == on then return end
+    noiseState = on
+    local f = io.open((os.getenv("XDG_RUNTIME_DIR") or "/tmp") .. "/rice-crt-state", "w")
+    if f then f:write(on and "on" or "off"); f:close() end
+    hl.exec_cmd("qs -c rice-static ipc call static setNoise " .. tostring(on))
+end
+
 local function apply()
     local path = ""
     local on = crtOn and not fsPaused and not gameOn
+    syncNoise(on)
     if on then
         path = CRT_SHADER
         if curveOn and buildCurved() then path = CRT_CURVED end

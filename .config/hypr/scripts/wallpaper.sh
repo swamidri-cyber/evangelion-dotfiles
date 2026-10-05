@@ -25,7 +25,7 @@ WALL_DIR="$(xdg-user-dir PICTURES 2>/dev/null || echo "$HOME/Pictures")/wallpape
 WE_DIR="$HOME/.local/share/Steam/steamapps/workshop/content/431960"
 WE_ASSETS="$HOME/.local/share/Steam/steamapps/common/wallpaper_engine/assets"
 STATE="${XDG_STATE_HOME:-$HOME/.local/state}/rice/wallpaper"
-DEFAULT="$WALL_DIR/retro-amber-ring.png"
+DEFAULT="$WALL_DIR/alas-ambar.png"
 WE_FPS=30          # tope de cuadros por segundo del fondo animado
 mkdir -p "$(dirname "$STATE")"
 
