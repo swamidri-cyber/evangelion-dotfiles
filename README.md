@@ -9,7 +9,7 @@ Corre sobre **CachyOS** (Arch) con **Hyprland 0.56** y su configuración en
 
 ![Escritorio](screenshots/escritorio.jpg)
 
-🎬 [Ver el video de demostración](videos/demo.mp4) (22 s, 1080p60)
+![Demo del rice](screenshots/demo.webp)
 
 | Lanzador | Terminal |
 |---|---|
