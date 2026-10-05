@@ -7,6 +7,14 @@ pixel, grano de película y subtítulos que aparecen solos en el escritorio.
 Corre sobre **CachyOS** (Arch) con **Hyprland 0.56** y su configuración en
 **Lua**, en una sesión UWSM.
 
+![Escritorio](screenshots/escritorio.jpg)
+
+| Lanzador | Terminal |
+|---|---|
+| ![Lanzador](screenshots/lanzador.jpg) | ![Terminal](screenshots/terminal.jpg) |
+| **Archivos** | **Hoja de atajos (Super+F1)** |
+| ![Dolphin](screenshots/archivos.jpg) | ![Atajos](screenshots/atajos.jpg) |
+
 ## Qué incluye
 
 | Pieza | Qué hace | Dónde |
