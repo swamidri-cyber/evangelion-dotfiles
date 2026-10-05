@@ -1,0 +1,7 @@
+# swayosd — configuración del rice (la original está en /etc/xdg/swayosd/config.toml)
+[server]
+style = "/home/swami/.config/swayosd/style.css"   # (también lo encuentra solo acá)
+show_percentage = true                  # número al lado de la barra
+min_brightness = 5
+keyboard_backlight = true
+duration = 1000                         # ms que queda visible

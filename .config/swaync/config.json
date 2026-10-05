@@ -1,0 +1,41 @@
+{
+  "$schema": "/etc/xdg/swaync/configSchema.json",
+  "positionX": "right",
+  "positionY": "top",
+  "layer": "overlay",
+  "control-center-layer": "top",
+  "layer-shell": true,
+  "cssPriority": "user",
+  "control-center-margin-top": 10,
+  "control-center-margin-right": 14,
+  "control-center-margin-bottom": 14,
+  "control-center-width": 380,
+  "notification-window-width": 360,
+  "timeout": 6,
+  "timeout-low": 3,
+  "timeout-critical": 0,
+  "fit-to-screen": true,
+  "hide-on-clear": true,
+  "hide-on-action": true,
+  "transition-time": 200,
+  "image-visibility": "when-available",
+  "widgets": [
+    "title",
+    "dnd",
+    "notifications",
+    "volume"
+  ],
+  "widget-config": {
+    "title": {
+      "text": "通知 ─ NOTIFICACIONES",
+      "clear-all-button": true,
+      "button-text": "Limpiar"
+    },
+    "dnd": {
+      "text": "No molestar"
+    },
+    "volume": {
+      "label": "音"
+    }
+  }
+}

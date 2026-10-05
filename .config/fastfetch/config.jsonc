@@ -1,0 +1,49 @@
+// ─────────────────────────────────────────────────────────────────────────────
+//  fastfetch — ficha del sistema estilo "monitor de nave" (ámbar sobre negro)
+//  Probar: fastfetch        ·   Docs: fastfetch --help config  /  wiki en GitHub
+//  Este mismo archivo lo usa el lanzador (Super+Espacio) para su panel izquierdo.
+// ─────────────────────────────────────────────────────────────────────────────
+{
+    "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+
+    // ── Logo ────────────────────────────────────────────────────────────────
+    // Imagen del rice (~/.config/rice-logo, generada por make-logo.py), con el
+    // ruido del fondo ya "horneado". kitty la dibuja con su protocolo de
+    // imágenes. Para volver al logo de texto de CachyOS: "source": "CachyOS"
+    // y sacá "type"/"width" (backup: config.jsonc.antes-logo).
+    "logo": {
+        "type": "kitty-direct",
+        "source": "~/.config/rice-logo/logo-term.png",
+        "width": 40,
+        "padding": { "top": 2, "left": 2, "right": 4 }
+    },
+
+    // ── Estilo general ──────────────────────────────────────────────────────
+    "display": {
+        "separator": "  ",            // espacio entre el ícono y el valor
+        "color": {
+            "keys":   "38;2;254;128;25",   // íconos en ámbar (se pisa por módulo)
+            "output": "38;2;235;219;178",  // valores en crema #ebdbb2
+            "title":  "38;2;250;189;47"
+        },
+        "key": { "width": 3 }          // ancho fijo para que los valores queden alineados
+    },
+
+    // ── Módulos (en orden). "key" = ícono Nerd Font, "keyColor" = su color ──
+    "modules": [
+        "break",
+        // Línea decorativa arriba, como en la captura de referencia
+        { "type": "custom", "format": "\u001b[38;2;215;153;33m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" },
+        { "type": "os",       "key": "\udb82\udcc7", "keyColor": "38;2;254;128;25", "format": "{name} {arch}" },
+        { "type": "kernel",   "key": "\uf17c", "keyColor": "38;2;250;189;47" },
+        { "type": "packages", "key": "\udb80\udfd6", "keyColor": "38;2;215;153;33" },
+        { "type": "shell",    "key": "\uf489", "keyColor": "38;2;251;73;52" },
+        { "type": "wm",       "key": "\uf2d2", "keyColor": "38;2;254;128;25" },
+        { "type": "command", "text": "gsettings get org.gnome.desktop.interface gtk-theme | tr -d \"'\"",  "key": "\udb80\ude7c", "keyColor": "38;2;250;189;47" },
+        { "type": "terminal", "key": "\ue795", "keyColor": "38;2;215;153;33" },
+        { "type": "memory",   "key": "\udb80\udf5b", "keyColor": "38;2;251;73;52" },
+        "break",
+        // Fila de puntos con los 8 colores brillantes de la terminal (color8–15)
+        { "type": "colors", "symbol": "circle", "paddingLeft": 0, "block": { "range": [8, 15] } }
+    ]
+}

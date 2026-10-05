@@ -1,0 +1,24 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   Zen — páginas internas (nueva pestaña, ajustes) con la paleta del rice.
+   No toca las páginas web comunes, salvo las barras de desplazamiento.
+   ───────────────────────────────────────────────────────────────────────────── */
+:root { scrollbar-color: #665c54 transparent !important; }  /* scrollbars cálidas y finas */
+
+@-moz-document url("about:newtab"), url("about:home"), url("about:blank"), url("about:privatebrowsing") {
+  html, body { background-color: #0d0b09 !important; color: #ebdbb2 !important; }
+}
+
+@-moz-document url-prefix("about:") {
+  :root {
+    --in-content-page-background: #1d2021 !important;
+    --in-content-box-background: #282828 !important;
+    --in-content-text-color: #ebdbb2 !important;
+    --in-content-accent-color: #fe8019 !important;
+    --in-content-accent-color-active: #d65d0e !important;
+    --in-content-primary-button-background: #fe8019 !important;
+    --in-content-primary-button-background-hover: #fabd2f !important;
+    --in-content-primary-button-text-color: #0d0b09 !important;
+    --color-accent-primary: #fe8019 !important;
+    --link-color: #fabd2f !important;
+  }
+}

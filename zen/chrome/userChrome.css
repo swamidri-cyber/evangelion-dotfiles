@@ -1,0 +1,78 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   Zen — interfaz con la paleta del rice (hypr/config/colors.lua)
+   Fondo negro cálido translúcido (Hyprland le pone blur), texto crema,
+   acentos ámbar/dorado y la fuente pixel DepartureMono.
+   ───────────────────────────────────────────────────────────────────────────── */
+:root {
+  /* Colores base (Zen deriva casi todo de estos) */
+  --zen-primary-color: #fe8019 !important;               /* ámbar */
+  --zen-branding-bg: #0d0b09 !important;                 /* negro cálido */
+  --zen-colors-primary: #3c3836 !important;
+  --zen-colors-secondary: #504945 !important;
+  --zen-colors-tertiary: #1d2021 !important;
+  --zen-colors-border: #3c3836 !important;
+  --zen-colors-hover-bg: rgba(254, 128, 25, 0.10) !important;
+  --zen-colors-primary-foreground: #ebdbb2 !important;
+
+  /* Fondo de la ventana: igual que kitty (#0d0b09 al 78%), translúcido.
+     Anula el degradé de color de los espacios de Zen. */
+  --zen-main-browser-background: rgba(13, 11, 9, 0.78) !important;
+  --zen-main-browser-background-toolbar: rgba(13, 11, 9, 0.78) !important;
+  --zen-themed-toolbar-bg-transparent: transparent !important;
+
+  /* Menús y ventanitas */
+  --zen-dialog-background: #1d2021 !important;
+  --arrowpanel-background: #1d2021 !important;
+  --arrowpanel-color: #ebdbb2 !important;
+  --arrowpanel-border-color: #504945 !important;
+  --panel-separator-color: #3c3836 !important;
+
+  /* Texto, íconos y barra de direcciones */
+  --toolbox-textcolor: #ebdbb2 !important;
+  --toolbox-textcolor-inactive: #a89984 !important;
+  --toolbar-color: #ebdbb2 !important;
+  --toolbarbutton-icon-fill: #d5c4a1 !important;
+  --toolbar-field-background-color: rgba(29, 32, 33, 0.85) !important;
+  --toolbar-field-focus-background-color: #1d2021 !important;
+  --toolbar-field-color: #ebdbb2 !important;
+  --focus-outline-color: #fe8019 !important;
+  --color-accent-primary: #fe8019 !important;
+  --link-color: #fabd2f !important;
+
+  /* Botones principales (ej. "Translate", "Guardar") en ámbar con texto negro */
+  --button-background-color-primary: #fe8019 !important;
+  --button-background-color-primary-hover: #fabd2f !important;
+  --button-background-color-primary-active: #d65d0e !important;
+  --button-text-color-primary: #0d0b09 !important;
+  --color-accent-primary-hover: #fabd2f !important;
+  --color-accent-primary-active: #d65d0e !important;
+
+  /* Fuente pixel en toda la interfaz (kanji con Noto Sans CJK) */
+  font-family: "DepartureMono Nerd Font", "Noto Sans CJK JP", monospace !important;
+}
+
+/* Pestañas: la activa con fondo ámbar tenue, borde fino y texto dorado */
+.tabbrowser-tab[selected] .tab-background,
+.tabbrowser-tab[visuallyselected] .tab-background {
+  background: rgba(254, 128, 25, 0.14) !important;
+  box-shadow: inset 0 0 0 1px rgba(254, 128, 25, 0.45) !important;
+}
+.tabbrowser-tab[selected] .tab-label,
+.tabbrowser-tab[visuallyselected] .tab-label { color: #fabd2f !important; }
+.tabbrowser-tab:not([selected]) .tab-label { color: #a89984 !important; }
+.tabbrowser-tab:not([selected]):hover .tab-background { background: rgba(254, 128, 25, 0.07) !important; }
+
+/* Barra de direcciones: borde ocre al escribir, selección ámbar */
+#urlbar[focused] #urlbar-background {
+  outline: 1px solid #d79921 !important;
+  outline-offset: -1px !important;
+}
+#urlbar ::selection, .urlbarView ::selection { background: #fe8019 !important; color: #0d0b09 !important; }
+.urlbarView-row[selected] { background: rgba(254, 128, 25, 0.16) !important; }
+.urlbarView-row[selected] .urlbarView-title { color: #fabd2f !important; }
+
+/* Marco de la página: fino brillo ámbar, como las ventanas activas */
+.browserSidebarContainer,
+#tabbrowser-tabbox {
+  box-shadow: 0 0 0 1px rgba(254, 128, 25, 0.30), 0 0 14px rgba(254, 128, 25, 0.12) !important;
+}

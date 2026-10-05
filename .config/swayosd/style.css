@@ -1,0 +1,66 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   swayosd — barra de volumen / brillo con la estética del rice
+   Panel marrón translúcido (Hyprland le pone blur: regla "rice-layers" en
+   windowrules.lua), borde ámbar fino, barra en degradé dorado → ámbar,
+   esquinas como las ventanas (8px) y fuente pixel.
+   Para volver al estilo original: borrá este archivo y reiniciá swayosd.
+   ───────────────────────────────────────────────────────────────────────────── */
+window#osd {
+  border-radius: 8px;
+  border: 1px solid #fe8019;
+  background: rgba(28, 18, 10, 0.72);              /* #1c120a, como el lanzador */
+  box-shadow: inset 0 0 12px rgba(254, 128, 25, 0.12);
+  font-family: "DepartureMono Nerd Font", "Noto Sans CJK JP", monospace;
+}
+window#osd #container {
+  margin: 10px 16px;
+}
+
+/* Ícono (parlante, sol…) en ámbar y el porcentaje en dorado */
+window#osd image {
+  color: #fe8019;
+  -gtk-icon-size: 18px;
+}
+window#osd label {
+  color: #fabd2f;
+  font-size: 13px;
+  margin-left: 4px;
+}
+
+/* Silenciado: todo se apaga a gris cálido */
+window#osd progressbar:disabled,
+window#osd image:disabled,
+window#osd label:disabled {
+  opacity: 0.45;
+}
+
+/* La barra: casi cuadrada (look de medidor retro) */
+window#osd progressbar,
+window#osd segmentedprogress {
+  min-height: 8px;
+  min-width: 220px;
+  border-radius: 2px;
+  background: transparent;
+  border: none;
+}
+window#osd trough,
+window#osd segment {
+  min-height: inherit;
+  border-radius: inherit;
+  border: 1px solid #3c3836;
+  background: rgba(13, 11, 9, 0.85);
+}
+window#osd progress,
+window#osd segment.active {
+  min-height: inherit;
+  border-radius: inherit;
+  border: none;
+  background: linear-gradient(to right, #d79921, #fabd2f 55%, #fe8019);
+  box-shadow: 0 0 6px rgba(254, 128, 25, 0.55);    /* brillo de fósforo */
+}
+window#osd segment {
+  margin-left: 4px;
+}
+window#osd segment:first-child {
+  margin-left: 0;
+}

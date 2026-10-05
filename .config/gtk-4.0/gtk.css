@@ -1,0 +1,5 @@
+/* Apps GTK4/libadwaita no leen el tema por nombre: hay que importar su CSS.
+   Tema: Colloid naranja + paleta Gruvbox (compilado en ~/.local/share/themes).
+   Anteriores:  @import url("file:///usr/share/themes/Colloid-Orange-Dark/gtk-4.0/gtk-dark.css");
+                @import url("noctalia.css");  (colores de Noctalia) */
+@import url("file:///home/swami/.local/share/themes/Colloid-Orange-Dark-Gruvbox/gtk-4.0/gtk-dark.css");

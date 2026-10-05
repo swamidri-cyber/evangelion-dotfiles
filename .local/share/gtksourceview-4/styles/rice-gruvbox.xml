@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Esquema del rice para editores GTK (Editor de texto de GNOME, Meld) -->
+<style-scheme id="rice-gruvbox" name="Rice Gruvbox" version="1.0">
+  <author>rice retro</author>
+  <description>Gruvbox ámbar sobre negro</description>
+  <color name="bg"     value="#0d0b09"/>
+  <color name="bg1"    value="#1d2021"/>
+  <color name="bg2"    value="#3c3836"/>
+  <color name="fg"     value="#ebdbb2"/>
+  <color name="gray"   value="#928374"/>
+  <color name="dim"    value="#665c54"/>
+  <color name="red"    value="#fb4934"/>
+  <color name="green"  value="#b8bb26"/>
+  <color name="yellow" value="#fabd2f"/>
+  <color name="blue"   value="#83a598"/>
+  <color name="purple" value="#d3869b"/>
+  <color name="aqua"   value="#8ec07c"/>
+  <color name="orange" value="#fe8019"/>
+
+  <style name="text"                  foreground="fg" background="bg"/>
+  <style name="selection"             foreground="bg" background="orange"/>
+  <style name="selection-unfocused"   foreground="fg" background="bg2"/>
+  <style name="cursor"                foreground="orange"/>
+  <style name="current-line"          background="bg1"/>
+  <style name="line-numbers"          foreground="dim" background="bg"/>
+  <style name="current-line-number"   foreground="orange" background="bg1" bold="true"/>
+  <style name="bracket-match"         foreground="bg" background="orange" bold="true"/>
+  <style name="bracket-mismatch"      foreground="fg" background="red"/>
+  <style name="search-match"          foreground="bg" background="yellow"/>
+  <style name="right-margin"          foreground="bg2" background="bg1"/>
+  <style name="draw-spaces"           foreground="bg2"/>
+  <style name="background-pattern"    background="bg1"/>
+
+  <style name="def:comment"           foreground="gray" italic="true"/>
+  <style name="def:shebang"           foreground="gray" bold="true"/>
+  <style name="def:doc-comment-element" foreground="gray" bold="true"/>
+  <style name="def:constant"          foreground="purple"/>
+  <style name="def:string"            foreground="green"/>
+  <style name="def:special-char"      foreground="orange"/>
+  <style name="def:number"            foreground="purple"/>
+  <style name="def:boolean"           foreground="purple"/>
+  <style name="def:identifier"        foreground="blue"/>
+  <style name="def:function"          foreground="yellow" bold="true"/>
+  <style name="def:statement"         foreground="red"/>
+  <style name="def:keyword"           foreground="red"/>
+  <style name="def:type"              foreground="yellow"/>
+  <style name="def:preprocessor"      foreground="aqua"/>
+  <style name="def:operator"          foreground="orange"/>
+  <style name="def:special-constant"  foreground="purple"/>
+  <style name="def:builtin"           foreground="orange"/>
+  <style name="def:note"              foreground="bg" background="yellow" bold="true"/>
+  <style name="def:error"             foreground="red" underline="error"/>
+  <style name="def:warning"           foreground="yellow" underline="error"/>
+  <style name="def:link-text"         foreground="blue" underline="single"/>
+  <style name="def:heading"           foreground="orange" bold="true"/>
+  <style name="def:emphasis"          italic="true"/>
+  <style name="def:strong-emphasis"   foreground="yellow" bold="true"/>
+  <style name="def:inline-code"       foreground="aqua"/>
+  <style name="def:insertion"         foreground="green"/>
+  <style name="def:deletion"          foreground="red"/>
+  <style name="diff:added-line"       foreground="green"/>
+  <style name="diff:removed-line"     foreground="red"/>
+  <style name="diff:changed-line"     foreground="yellow"/>
+  <style name="diff:location"         foreground="blue" bold="true"/>
+</style-scheme>

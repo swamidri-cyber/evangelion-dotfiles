@@ -1,0 +1,47 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   Tema "Rice" para Spotify — detalles retro sobre los colores de color.ini
+   Fuente pixel, esquinas como las ventanas (8px), bordes ámbar finos y la
+   barra de progreso con degradé dorado → ámbar y brillo de fósforo.
+   ───────────────────────────────────────────────────────────────────────────── */
+
+/* Fuente pixel en toda la app (kanji con Noto Sans CJK) */
+:root, body, button, input, .encore-text, h1, h2, h3, span, a {
+  font-family: "DepartureMono Nerd Font", "Noto Sans CJK JP", monospace !important;
+  letter-spacing: 0 !important;
+}
+
+/* Paneles con esquinas de 8px y borde ocre muy tenue */
+.Root__nav-bar, .Root__main-view, .Root__right-sidebar {
+  border-radius: 8px !important;
+  box-shadow: inset 0 0 0 1px rgba(215, 153, 33, 0.18) !important;
+}
+.main-card-card, .main-card-card img, .main-image-image {
+  border-radius: 6px !important;
+}
+
+/* Barras de progreso y volumen: degradé dorado → ámbar con brillo */
+.x-progressBar-fillColor, .progress-bar__fg {
+  background: linear-gradient(to right, #d79921, #fabd2f 55%, #fe8019) !important;
+  box-shadow: 0 0 6px rgba(254, 128, 25, 0.55) !important;
+}
+.x-progressBar-progressBarBg, .progress-bar__bg {
+  background-color: #3c3836 !important;
+}
+
+/* Botón de play grande: ámbar con texto negro y halo */
+.main-playButton-PlayButton button span,
+.encore-bright-accent-set {
+  background-color: #fe8019 !important;
+  color: #0d0b09 !important;
+  box-shadow: 0 0 10px rgba(254, 128, 25, 0.45) !important;
+}
+
+/* Canción sonando: dorado */
+.main-trackList-playingIcon, .main-trackList-rowTitle[data-encore-id] .encore-text-body-medium,
+.main-nowPlayingWidget-nowPlaying .main-trackInfo-name a {
+  color: #fabd2f !important;
+}
+
+/* Selección de texto ámbar, scrollbar cálida y fina */
+::selection { background: #fe8019; color: #0d0b09; }
+* { scrollbar-color: #665c54 transparent; }

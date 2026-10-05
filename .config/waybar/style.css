@@ -1,0 +1,125 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   Waybar — estilos (CSS de GTK3: no todo el CSS web funciona, pero casi)
+   Waybar recarga este archivo solo al guardarlo.
+
+   Paleta:  negro #0d0b09 · ámbar #fe8019 · dorado #fabd2f · ocre #d79921
+            crema #ebdbb2 · gris #928374 · marrón #3c3836 · rojo #fb4934
+   ───────────────────────────────────────────────────────────────────────── */
+
+* {
+    /* Departure Mono para todo; los kanji/katakana que no tiene los toma de
+       Noto Sans CJK JP (por eso va segunda en la lista). */
+    font-family: "DepartureMono Nerd Font", "Noto Sans CJK JP", monospace;
+    font-size: 13px;
+    min-height: 0;
+    border: none;
+    border-radius: 0;
+}
+
+/* La barra en sí: transparente, solo flota el texto sobre el wallpaper */
+window#waybar {
+    background: transparent;
+    color: #ebdbb2;
+}
+
+/* Espaciado común de los módulos */
+#workspaces, #window, #custom-rec, #custom-recmic, #custom-keys, #custom-kana, #tray, #pulseaudio, #network, #clock {
+    padding: 0 10px;
+    margin: 4px 0;
+}
+
+/* ── Workspaces ──────────────────────────────────────────────────────────── */
+#workspaces button {
+    padding: 0 6px;
+    color: #928374;              /* existe pero no está activo */
+    background: transparent;
+    font-size: 15px;
+    transition: color 200ms ease;
+}
+#workspaces button:hover {
+    color: #fabd2f;
+    background: transparent;
+    box-shadow: none;
+}
+#workspaces button.active {
+    color: #fe8019;
+    /* brillo de fósforo alrededor del kanji activo */
+    text-shadow: 0 0 6px rgba(254, 128, 25, 0.9), 0 0 12px rgba(254, 128, 25, 0.5);
+}
+#workspaces button.urgent {
+    color: #fb4934;
+}
+
+/* ── Título centrado en recuadro dorado ──────────────────────────────────── */
+#window {
+    color: #fabd2f;
+    padding: 0 16px;
+    border: 1px solid #fabd2f;
+    border-radius: 2px;
+    background: rgba(254, 128, 25, 0.10);
+    box-shadow: 0 0 8px rgba(254, 128, 25, 0.45),
+                inset 0 0 6px rgba(254, 128, 25, 0.25);
+    text-shadow: 0 0 5px rgba(250, 189, 47, 0.6);
+}
+/* Sin ventanas en el workspace: el recuadro desaparece */
+window#waybar.empty #window {
+    border: none;
+    background: transparent;
+    box-shadow: none;
+}
+
+/* ── Derecha ─────────────────────────────────────────────────────────────── */
+/* Recordatorio de la hoja de atajos: tenue, se enciende al pasar el mouse */
+#custom-keys {
+    color: #928374;
+    transition: color 200ms ease;
+}
+#custom-keys:hover {
+    color: #fe8019;
+}
+#custom-kana {
+    color: #d79921;
+    font-size: 12px;
+    letter-spacing: 1px;
+}
+#pulseaudio {
+    color: #fabd2f;
+    letter-spacing: -1px;        /* barritas pegadas, como un vúmetro */
+}
+#pulseaudio.muted {
+    color: #665c54;
+}
+#network {
+    color: #d79921;
+}
+#network.disconnected {
+    color: #fb4934;
+}
+#clock {
+    color: #fe8019;
+    font-size: 14px;
+    text-shadow: 0 0 6px rgba(254, 128, 25, 0.7);
+}
+
+/* ── Tooltips (cartelito al pasar el mouse) ──────────────────────────────── */
+tooltip {
+    background: rgba(13, 11, 9, 0.92);
+    border: 1px solid #d79921;
+    border-radius: 4px;
+}
+tooltip label {
+    color: #ebdbb2;
+}
+
+/* ── Grabación de pantalla: ● REC rojo que late + interruptor de micrófono ── */
+@keyframes rec-blink {
+    from { color: #fb4934; }
+    to   { color: #7c2a20; }
+}
+#custom-rec.rec {
+    color: #fb4934;
+    animation: rec-blink 0.9s ease-in-out infinite alternate;
+}
+#custom-recmic.on  { color: #fabd2f; }                 /* micrófono prendido */
+#custom-recmic.off { color: #665c54; }                 /* apagado */
+#custom-recmic:hover { color: #fe8019; }

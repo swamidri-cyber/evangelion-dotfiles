@@ -1,0 +1,115 @@
+// ─────────────────────────────────────────────────────────────────────────────
+//  Waybar — barra superior del rice
+//  Probar sin reiniciar sesión:  pkill waybar; waybar &
+//  Docs de cada módulo:          man waybar-<módulo>   (ej. man waybar-clock)
+//
+//  Izquierda: workspaces en kanji · Centro: título de la ventana en un recuadro
+//  Derecha:   nombre en katakana, bandeja, volumen en barritas, red, reloj
+// ─────────────────────────────────────────────────────────────────────────────
+{
+    "layer": "top",
+    "position": "top",
+    "height": 34,
+    // Separación de los bordes de la pantalla (coincide con gaps_out = 14)
+    "margin-top": 6,
+    "margin-left": 14,
+    "margin-right": 14,
+    "spacing": 0,
+
+    "modules-left":   ["hyprland/workspaces"],
+    "modules-center": ["hyprland/window"],
+    "modules-right":  ["custom/rec", "custom/recmic", "custom/keys", "custom/kana", "tray", "pulseaudio", "network", "clock"],
+
+    // ── Workspaces con números en kanji ─────────────────────────────────────
+    "hyprland/workspaces": {
+        "format": "{icon}",
+        "format-icons": {
+            "1": "一", "2": "二", "3": "三", "4": "四", "5": "五",
+            "6": "六", "7": "七", "8": "八", "9": "九", "10": "十",
+            "gaming": "遊",          // workspace especial de juegos (遊 = jugar)
+            "default": "〇"
+        },
+        "on-click": "activate",
+        "sort-by-number": true
+    },
+
+    // ── Título de la ventana activa (centro, en recuadro) ───────────────────
+    "hyprland/window": {
+        "format": "{title}",
+        "max-length": 48,
+        "separate-outputs": true,
+        // Acorta títulos largos conocidos. Formato: "regex": "reemplazo"
+        "rewrite": {
+            "(.*) — Mozilla Firefox": "$1",
+            "(.*) - Brave": "$1"
+        }
+    },
+
+    // ── Texto decorativo en katakana (como en la captura) ───────────────────
+    // スワミ = "Swami" en katakana. Cambialo por lo que quieras.
+    // ── Grabación de pantalla (Super+Shift+D): solo aparecen mientras graba ──
+    //    ● REC mm:ss (clic = terminar) · MIC (clic = prender/apagar micrófono)
+    "custom/rec": {
+        "exec": "~/.config/hypr/scripts/record.sh status",
+        "return-type": "json",
+        "interval": 1,
+        "signal": 8,
+        "on-click": "~/.config/hypr/scripts/record.sh toggle"
+    },
+    "custom/recmic": {
+        "exec": "~/.config/hypr/scripts/record.sh micstatus",
+        "return-type": "json",
+        "interval": 1,
+        "signal": 8,
+        "on-click": "~/.config/hypr/scripts/record.sh mic"
+    },
+
+    // ── Recordatorio de la hoja de atajos (clic = abrirla, igual que Super+F1) ─
+    "custom/keys": {
+        "format": "鍵 SUPER+F1",
+        "tooltip": false,
+        "on-click": "qs -c rice-keys ipc call keys toggle"
+    },
+
+    "custom/kana": {
+        "format": "スワミ ─ キャッシーOS",
+        "tooltip": false
+    },
+
+    "tray": {
+        "icon-size": 14,
+        "spacing": 8
+    },
+
+    // ── Volumen como barritas ▮▮▮▯ (clic = mute, rueda = subir/bajar) ───────
+    "pulseaudio": {
+        "format": "{icon}",
+        "format-muted": "▯▯▯▯ 消音",                  // 消音 = silencio
+        "format-icons": ["▯▯▯▯", "▮▯▯▯", "▮▮▯▯", "▮▮▮▯", "▮▮▮▮"],
+        "tooltip-format": "Volumen {volume}%",
+        "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+        "on-click-right": "pavucontrol",
+        "scroll-step": 5
+    },
+
+    // ── Red: solo un ícono, detalles al pasar el mouse ──────────────────────
+    "network": {
+        "format-ethernet": "󰈀",
+        "format-wifi": "󰖩",
+        "format-disconnected": "󰖪 断",               // 断 = cortado
+        "tooltip-format": "{ifname} · {ipaddr}",
+        "tooltip-format-wifi": "{essid} ({signalStrength}%) · {ipaddr}"
+    },
+
+    // ── Reloj (clic alterna con la fecha) ───────────────────────────────────
+    "clock": {
+        "format": "{:%H:%M}",
+        "format-alt": "{:%a %d/%m  %H:%M}",
+        "tooltip-format": "<tt>{calendar}</tt>",
+        "calendar": {
+            "format": {
+                "today": "<span color='#fe8019'><b>{}</b></span>"
+            }
+        }
+    }
+}

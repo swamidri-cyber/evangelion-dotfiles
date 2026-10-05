@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+<rect width="1920" height="1080" fill="#000"/>
+<g fill="none" stroke="#7a4a1c" stroke-linecap="butt"><circle cx="960" cy="520" r="400" stroke-width="2" stroke-dasharray="180 40 30 40"/><circle cx="960" cy="520" r="430" stroke-width="10" stroke-dasharray="4 18" opacity="0.7"/><circle cx="960" cy="520" r="470" stroke-width="1.5" stroke-dasharray="600 300"/></g>
+<path d="M560,1080 C600,930 760,880 880,860 L1040,860 C1160,880 1320,930 1360,1080 Z" fill="#f4efe6" stroke="#0a0806" stroke-width="6"/>
+<path d="M700,1080 C730,980 800,940 880,920" fill="none" stroke="#0a0806" stroke-width="4"/>
+<path d="M1220,1080 C1190,980 1120,940 1040,920" fill="none" stroke="#0a0806" stroke-width="4"/>
+<path d="M560,1080 C600,930 760,880 880,860 L860,920 C780,950 700,1000 680,1080 Z" fill="#b9ad9c"/>
+<path d="M905,960 L1015,960 L1030,1040 L890,1040 Z" fill="#ffffff" stroke="#0a0806" stroke-width="4"/>
+<text x="960" y="1018" font-family="DepartureMono Nerd Font" font-size="44" text-anchor="middle" fill="#0a0806">07</text>
+<path d="M905,690 L900,880 L1020,880 L1015,690 Z" fill="#f4efe6" stroke="#0a0806" stroke-width="5"/>
+<path d="M905,700 L1015,700 L1012,760 C980,740 940,740 906,770 Z" fill="#b9ad9c"/>
+<rect x="888" y="800" width="144" height="46" rx="6" fill="#ffffff" stroke="#0a0806" stroke-width="5"/>
+<rect x="900" y="812" width="40" height="22" fill="#0a0806"/>
+<circle cx="1008" cy="823" r="8" fill="none" stroke="#0a0806" stroke-width="3"/>
+<line x1="950" y1="823" x2="992" y2="823" stroke="#0a0806" stroke-width="3" stroke-dasharray="6 4"/>
+<text x="920" y="830" font-family="Noto Sans CJK JP" font-size="16" text-anchor="middle" fill="#ffffff">零七</text>
+<g transform="translate(960,640) scale(1.22) translate(-960,-640)">
+<path d="M780,600 C740,470 760,300 880,250 C960,215 1060,225 1120,280 C1190,345 1190,500 1150,640 L1130,600 L1120,690 L1095,620 L1080,700 L1060,560 L880,560 L860,700 L845,615 L820,690 L812,600 L795,660 Z" fill="#8f8270" stroke="#0a0806" stroke-width="6" stroke-linejoin="round"/>
+<path d="M832,420 C826,520 838,600 880,660 C910,700 940,722 960,724 C980,722 1010,700 1040,660 C1082,600 1094,520 1088,420 Z" fill="#f4efe6" stroke="#0a0806" stroke-width="6" stroke-linejoin="round"/>
+<path d="M834,420 L1086,420 L1088,470 C1040,500 1010,470 980,505 C950,470 900,500 836,476 Z" fill="#b9ad9c"/>
+<path d="M834,520 C808,512 806,570 838,590" fill="#f4efe6" stroke="#0a0806" stroke-width="5"/>
+<path d="M1086,520 C1112,512 1114,570 1082,590" fill="#f4efe6" stroke="#0a0806" stroke-width="5"/>
+<line x1="850" y1="470" x2="850" y2="496" stroke="#b9ad9c" stroke-width="3"/>
+<line x1="864" y1="476" x2="864" y2="510" stroke="#b9ad9c" stroke-width="3"/>
+<line x1="878" y1="482" x2="878" y2="524" stroke="#b9ad9c" stroke-width="3"/>
+<line x1="892" y1="470" x2="892" y2="520" stroke="#b9ad9c" stroke-width="3"/>
+<line x1="906" y1="476" x2="906" y2="502" stroke="#b9ad9c" stroke-width="3"/>
+<line x1="920" y1="482" x2="920" y2="516" stroke="#b9ad9c" stroke-width="3"/>
+<line x1="934" y1="470" x2="934" y2="512" stroke="#b9ad9c" stroke-width="3"/>
+<line x1="948" y1="476" x2="948" y2="526" stroke="#b9ad9c" stroke-width="3"/>
+<line x1="962" y1="482" x2="962" y2="508" stroke="#b9ad9c" stroke-width="3"/>
+<line x1="976" y1="470" x2="976" y2="504" stroke="#b9ad9c" stroke-width="3"/>
+<line x1="990" y1="476" x2="990" y2="518" stroke="#b9ad9c" stroke-width="3"/>
+<line x1="1004" y1="482" x2="1004" y2="532" stroke="#b9ad9c" stroke-width="3"/>
+<line x1="1018" y1="470" x2="1018" y2="496" stroke="#b9ad9c" stroke-width="3"/>
+<line x1="1032" y1="476" x2="1032" y2="510" stroke="#b9ad9c" stroke-width="3"/>
+<line x1="1046" y1="482" x2="1046" y2="524" stroke="#b9ad9c" stroke-width="3"/>
+<line x1="1060" y1="470" x2="1060" y2="520" stroke="#b9ad9c" stroke-width="3"/>
+<line x1="1074" y1="476" x2="1074" y2="502" stroke="#b9ad9c" stroke-width="3"/>
+<path d="M938,558 C934,526 888,510 852,534 C848,566 874,590 900,590 C922,588 936,576 938,558 Z" fill="#ffffff"/>
+<circle cx="894" cy="554" r="17" fill="#3a3129" stroke="#0a0806" stroke-width="3"/>
+<circle cx="894" cy="554" r="11" fill="none" stroke="#7a6a58" stroke-width="2"/>
+<circle cx="894" cy="554" r="3" fill="#0a0806"/>
+<rect x="900" y="542" width="7" height="7" fill="#ffffff"/>
+<circle cx="886" cy="563" r="2" fill="#ffffff"/>
+<path d="M940,560 C936,522 888,504 850,532 L838,526 L848,542" fill="none" stroke="#0a0806" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M920,586 C902,594 876,590 862,576" fill="none" stroke="#0a0806" stroke-width="2.5" stroke-linecap="round"/>
+<path d="M928,516 C904,496 872,496 854,512" fill="none" stroke="#0a0806" stroke-width="2" stroke-linecap="round"/>
+<path d="M918,602 C898,610 876,606 864,596" fill="none" stroke="#b9ad9c" stroke-width="3" stroke-linecap="round"/>
+<path d="M982,558 C986,526 1032,510 1068,534 C1072,566 1046,590 1020,590 C998,588 984,576 982,558 Z" fill="#ffffff"/>
+<circle cx="1026" cy="554" r="17" fill="#3a3129" stroke="#0a0806" stroke-width="3"/>
+<circle cx="1026" cy="554" r="11" fill="none" stroke="#7a6a58" stroke-width="2"/>
+<circle cx="1026" cy="554" r="3" fill="#0a0806"/>
+<rect x="1012" y="542" width="7" height="7" fill="#ffffff"/>
+<circle cx="1034" cy="563" r="2" fill="#ffffff"/>
+<path d="M980,560 C984,522 1032,504 1070,532 L1082,526 L1072,542" fill="none" stroke="#0a0806" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M1000,586 C1018,594 1044,590 1058,576" fill="none" stroke="#0a0806" stroke-width="2.5" stroke-linecap="round"/>
+<path d="M992,516 C1016,496 1048,496 1066,512" fill="none" stroke="#0a0806" stroke-width="2" stroke-linecap="round"/>
+<path d="M1002,602 C1022,610 1044,606 1056,596" fill="none" stroke="#b9ad9c" stroke-width="3" stroke-linecap="round"/>
+<path d="M966,600 L958,630 L968,632" fill="none" stroke="#0a0806" stroke-width="3" stroke-linecap="round"/>
+<path d="M936,672 C950,666 972,666 986,670 C978,684 946,686 936,672 Z" fill="#0a0806"/>
+<path d="M948,676 C958,680 970,680 978,676" fill="none" stroke="#5a2a20" stroke-width="3"/>
+<path d="M870,590 C866,620 868,650 874,672" fill="none" stroke="#b9ad9c" stroke-width="3"/>
+<g transform="rotate(-18 1046 640)"><rect x="1010" y="626" width="72" height="28" rx="8" fill="#ffffff" stroke="#0a0806" stroke-width="4"/><rect x="1034" y="630" width="24" height="20" fill="#ece3d2" stroke="#0a0806" stroke-width="2"/><line x1="1018" y1="634" x2="1026" y2="646" stroke="#0a0806" stroke-width="2"/><line x1="1066" y1="634" x2="1074" y2="646" stroke="#0a0806" stroke-width="2"/></g>
+<path d="M800,470 C800,330 880,262 960,258 C1060,256 1140,320 1124,480 L1106,448 L1096,526 L1078,456 L1062,478 L1044,432 L1034,546 L1008,444 L990,476 L972,428 L954,536 L934,440 L916,482 L898,432 L880,520 L862,450 L842,540 L826,520 Z" fill="#e6ddcc" stroke="#0a0806" stroke-width="6" stroke-linejoin="round"/>
+<path d="M808,450 L842,600 L826,560 L818,640 L800,540 Z" fill="#e6ddcc" stroke="#0a0806" stroke-width="5" stroke-linejoin="round"/>
+<path d="M1114,450 L1080,600 L1096,560 L1104,640 L1122,540 Z" fill="#e6ddcc" stroke="#0a0806" stroke-width="5" stroke-linejoin="round"/>
+<path d="M870,330 C910,300 1010,296 1060,330 L1050,346 C1000,320 920,322 880,346 Z" fill="#ffffff"/>
+<path d="M900,300 C890,360 896,420 900,470" fill="none" stroke="#8f8270" stroke-width="3"/>
+<path d="M960,262 C956,330 960,400 972,420" fill="none" stroke="#8f8270" stroke-width="3"/>
+<path d="M1030,280 C1046,340 1050,400 1046,486" fill="none" stroke="#8f8270" stroke-width="3"/>
+<path d="M850,360 C840,410 846,460 862,500" fill="none" stroke="#8f8270" stroke-width="3"/>
+<path d="M1090,340 C1100,390 1100,430 1092,500" fill="none" stroke="#8f8270" stroke-width="3"/>
+</g>
+<g font-family="DepartureMono Nerd Font" font-size="18" fill="#8a5a24"><text x="560" y="210">SUBJ.07 // SYNC 41.3%</text><text x="1240" y="210" text-anchor="start">PSY.CONTAM ▮▮▮▯▯</text></g>
+<g font-family="Noto Sans CJK JP" font-size="22" fill="#8a5a24"><text x="560" y="240">被験体 零七</text><text x="1240" y="240">精神汚染 警告</text></g>
+</svg>

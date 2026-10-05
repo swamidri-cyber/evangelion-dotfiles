@@ -1,0 +1,91 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   Discord (Vesktop + Vencord) — tema del rice: Gruvbox ámbar, fuente pixel.
+   Este es el "Quick CSS" de Vencord: se aplica en vivo al guardar.
+   Para desactivarlo: Ajustes → Vencord → desactivar "Quick CSS"
+   (o volver a quickCss.css.orig).
+   ───────────────────────────────────────────────────────────────────────────── */
+:root, .theme-dark, .theme-darker, .theme-midnight, .visual-refresh {
+  /* Fondos (de más oscuro a más claro) */
+  --background-base-lowest: #0d0b09 !important;
+  --background-base-lower: #0d0b09 !important;
+  --background-base-low: #141210 !important;
+  --background-surface-high: #1d2021 !important;
+  --background-surface-higher: #282828 !important;
+  --background-surface-highest: #3c3836 !important;
+  --background-primary: #141210 !important;      /* chat */
+  --background-secondary: #0d0b09 !important;    /* lista de canales */
+  --background-secondary-alt: #1d2021 !important;
+  --background-tertiary: #0d0b09 !important;     /* lista de servidores */
+  --background-floating: #1d2021 !important;     /* menús */
+  --background-nested-floating: #282828 !important;
+  --chat-background: #141210 !important;
+  --chat-background-default: #141210 !important;
+  --channeltextarea-background: #1d2021 !important;
+  --modal-background: #1d2021 !important;
+  --modal-footer-background: #141210 !important;
+  --input-background: #1d2021 !important;
+  --bg-base-primary: #141210 !important;
+  --bg-base-secondary: #0d0b09 !important;
+  --bg-base-tertiary: #0d0b09 !important;
+  --bg-surface-overlay: #1d2021 !important;
+  --bg-surface-raised: #1d2021 !important;
+
+  /* Hover / seleccionado: ámbar muy tenue */
+  --background-modifier-hover: rgba(254, 128, 25, 0.08) !important;
+  --background-modifier-active: rgba(254, 128, 25, 0.12) !important;
+  --background-modifier-selected: rgba(254, 128, 25, 0.16) !important;
+  --background-modifier-accent: #3c3836 !important;
+  --border-subtle: #3c3836 !important;
+  --border-faint: #282828 !important;
+
+  /* Texto */
+  --text-normal: #ebdbb2 !important;
+  --text-default: #ebdbb2 !important;
+  --text-muted: #a89984 !important;
+  --text-secondary: #a89984 !important;
+  --header-primary: #fabd2f !important;          /* títulos en dorado */
+  --header-secondary: #d79921 !important;
+  --text-link: #fabd2f !important;
+  --channels-default: #a89984 !important;
+  --interactive-normal: #a89984 !important;
+  --interactive-hover: #ebdbb2 !important;
+  --interactive-active: #fabd2f !important;
+  --interactive-muted: #504945 !important;
+
+  /* Acento (el "violeta" de Discord) → ámbar */
+  --brand-500: #fe8019 !important;
+  --brand-560: #d65d0e !important;
+  --brand-600: #d65d0e !important;
+  --brand-experiment: #fe8019 !important;
+  --brand-experiment-560: #d65d0e !important;
+  --control-brand-foreground: #fe8019 !important;
+  --control-brand-foreground-new: #fe8019 !important;
+  --button-filled-brand-background: #fe8019 !important;
+  --button-filled-brand-background-hover: #fabd2f !important;
+  --button-filled-brand-text: #0d0b09 !important;
+  --mention-foreground: #fabd2f !important;
+  --mention-background: rgba(254, 128, 25, 0.18) !important;
+  --background-mentioned: rgba(254, 128, 25, 0.08) !important;
+  --background-mentioned-hover: rgba(254, 128, 25, 0.12) !important;
+  --info-warning-foreground: #fabd2f !important;
+  --status-danger: #fb4934 !important;
+  --status-positive: #b8bb26 !important;
+  --scrollbar-thin-thumb: #504945 !important;
+  --scrollbar-auto-thumb: #504945 !important;
+  --scrollbar-auto-track: transparent !important;
+
+  /* Fuente pixel en toda la app (kanji con Noto Sans CJK) */
+  --font-primary: "DepartureMono Nerd Font", "Noto Sans CJK JP", monospace !important;
+  --font-display: "DepartureMono Nerd Font", "Noto Sans CJK JP", monospace !important;
+  --font-headline: "DepartureMono Nerd Font", "Noto Sans CJK JP", monospace !important;
+  --font-code: "DepartureMono Nerd Font", monospace !important;
+}
+
+/* Selección de texto ámbar */
+::selection { background: #fe8019; color: #0d0b09; }
+
+/* Menciones (@vos) con borde ámbar a la izquierda */
+[class*="mentioned"]::before { background: #fe8019 !important; }
+
+/* Indicador del servidor activo: ámbar con brillo */
+[class*="pill"] [class*="item"] { background: #fe8019 !important; box-shadow: 0 0 6px rgba(254,128,25,.6); }

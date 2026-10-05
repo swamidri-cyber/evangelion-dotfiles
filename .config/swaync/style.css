@@ -1,0 +1,84 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   swaync — estilo ámbar retro. Recargar en vivo: swaync-client -rs
+   Paleta igual a la de Waybar (ver waybar/style.css).
+   ───────────────────────────────────────────────────────────────────────── */
+
+* {
+    font-family: "DepartureMono Nerd Font", "Noto Sans CJK JP", monospace;
+    font-size: 13px;
+}
+
+/* ── Notificación emergente ─────────────────────────────────────────────── */
+.notification-row { outline: none; }
+
+.notification {
+    background: rgba(13, 11, 9, 0.85);
+    border: 1px solid #d79921;
+    border-radius: 6px;
+    box-shadow: 0 0 10px rgba(254, 128, 25, 0.35);
+    margin: 6px;
+    padding: 0;
+}
+.notification-content { padding: 10px; }
+
+.summary   { color: #fabd2f; font-weight: bold; }
+.body      { color: #ebdbb2; }
+.time      { color: #928374; font-size: 11px; }
+.app-name  { color: #d79921; }
+
+/* Urgente: borde rojo */
+.notification.critical { border-color: #fb4934; box-shadow: 0 0 10px rgba(251, 73, 52, 0.4); }
+
+.close-button {
+    background: #3c3836;
+    color: #ebdbb2;
+    border-radius: 3px;
+    margin: 6px;
+}
+.close-button:hover { background: #fe8019; color: #0d0b09; }
+
+/* Botones de acción dentro de la notificación */
+.notification-action {
+    background: transparent;
+    color: #fabd2f;
+    border: 1px solid #3c3836;
+    border-radius: 3px;
+    margin: 4px;
+}
+.notification-action:hover { background: rgba(254, 128, 25, 0.15); }
+
+/* ── Centro de notificaciones (panel lateral) ───────────────────────────── */
+.control-center {
+    background: rgba(13, 11, 9, 0.80);
+    border: 1px solid #d79921;
+    border-radius: 8px;
+    box-shadow: 0 0 14px rgba(254, 128, 25, 0.3);
+}
+.control-center-list { background: transparent; }
+
+.widget-title {
+    color: #fe8019;
+    margin: 10px;
+    font-size: 14px;
+}
+.widget-title > button {
+    background: transparent;
+    color: #ebdbb2;
+    border: 1px solid #3c3836;
+    border-radius: 3px;
+}
+.widget-title > button:hover { border-color: #fe8019; color: #fe8019; }
+
+.widget-dnd { color: #ebdbb2; margin: 0 10px; }
+.widget-dnd > switch {
+    background: #3c3836;
+    border-radius: 3px;
+}
+.widget-dnd > switch:checked { background: #fe8019; }
+.widget-dnd > switch slider { background: #ebdbb2; border-radius: 2px; }
+
+.widget-volume { color: #fabd2f; margin: 10px; }
+.widget-volume trough { background: #3c3836; }
+.widget-volume highlight { background: #fe8019; }
+
+.blank-window { background: transparent; }

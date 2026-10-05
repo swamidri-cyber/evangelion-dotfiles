@@ -1,0 +1,69 @@
+# Tema del rice para eza (el "ls" de CachyOS) — Gruvbox ámbar
+colourful: true
+filekinds:
+  normal: { foreground: "#ebdbb2" }
+  directory: { foreground: "#fe8019", is_bold: true }
+  symlink: { foreground: "#8ec07c" }
+  pipe: { foreground: "#d3869b" }
+  block_device: { foreground: "#fabd2f" }
+  char_device: { foreground: "#fabd2f" }
+  socket: { foreground: "#d3869b" }
+  special: { foreground: "#d3869b" }
+  executable: { foreground: "#b8bb26", is_bold: true }
+  mount_point: { foreground: "#fe8019", is_underline: true }
+perms:
+  user_read: { foreground: "#fabd2f" }
+  user_write: { foreground: "#fe8019" }
+  user_execute_file: { foreground: "#b8bb26" }
+  user_execute_other: { foreground: "#b8bb26" }
+  group_read: { foreground: "#d79921" }
+  group_write: { foreground: "#d65d0e" }
+  group_execute: { foreground: "#98971a" }
+  other_read: { foreground: "#a89984" }
+  other_write: { foreground: "#a89984" }
+  other_execute: { foreground: "#a89984" }
+  special_user_file: { foreground: "#d3869b" }
+  special_other: { foreground: "#d3869b" }
+  attribute: { foreground: "#928374" }
+size:
+  major: { foreground: "#d79921" }
+  minor: { foreground: "#fabd2f" }
+  number_byte: { foreground: "#ebdbb2" }
+  number_kilo: { foreground: "#fabd2f" }
+  number_mega: { foreground: "#fe8019" }
+  number_giga: { foreground: "#fb4934" }
+  number_huge: { foreground: "#fb4934", is_bold: true }
+  unit_byte: { foreground: "#928374" }
+  unit_kilo: { foreground: "#928374" }
+  unit_mega: { foreground: "#928374" }
+  unit_giga: { foreground: "#928374" }
+  unit_huge: { foreground: "#928374" }
+users:
+  user_you: { foreground: "#fabd2f" }
+  user_root: { foreground: "#fb4934" }
+  user_other: { foreground: "#a89984" }
+  group_yours: { foreground: "#d79921" }
+  group_other: { foreground: "#928374" }
+  group_root: { foreground: "#fb4934" }
+links:
+  normal: { foreground: "#8ec07c" }
+  multi_link_file: { foreground: "#8ec07c", is_bold: true }
+git:
+  new: { foreground: "#b8bb26" }
+  modified: { foreground: "#fabd2f" }
+  deleted: { foreground: "#fb4934" }
+  renamed: { foreground: "#83a598" }
+  typechange: { foreground: "#d3869b" }
+  ignored: { foreground: "#665c54" }
+  conflicted: { foreground: "#fb4934", is_bold: true }
+punctuation: { foreground: "#665c54" }
+date: { foreground: "#83a598" }
+inode: { foreground: "#928374" }
+blocks: { foreground: "#928374" }
+header: { foreground: "#ebdbb2", is_underline: true }
+octal: { foreground: "#d79921" }
+flags: { foreground: "#928374" }
+symlink_path: { foreground: "#8ec07c" }
+control_char: { foreground: "#fb4934" }
+broken_symlink: { foreground: "#fb4934" }
+broken_path_overlay: { foreground: "#fb4934" }
