@@ -82,8 +82,11 @@ ShellRoot {
         function hide(): void   { root.hide() }
     }
 
+    Sfx { id: sfx; names: ["open", "close", "select"] }
+
     function show() {
         closeAnim.stop();
+        sfx.play("open");
         query = "";
         countsFile.reload();
         rebuild();
@@ -100,6 +103,7 @@ ShellRoot {
     function hide() {
         if (!open) return;
         open = false;
+        sfx.play("close");
         openAnim.stop();
         typer.stop();
         closeAnim.restart();            // se apaga como un tubo y recién ahí desaparece
@@ -241,6 +245,7 @@ ShellRoot {
         countsFile.setText(Object.keys(c).map(k => c[k] + "\t" + k).join("\n") + "\n");
         // Lanzar desacoplado, con UWSM como el resto del sistema
         Quickshell.execDetached(["uwsm", "app", "--", id]);
+        sfx.play("select");
         hide();
     }
 

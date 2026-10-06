@@ -1,0 +1,7 @@
+{
+  "enabled": true,
+  "sfx": 0.6,
+  "ambient": 0.35,
+  "appSound": true,
+  "typing": 0.25
+}

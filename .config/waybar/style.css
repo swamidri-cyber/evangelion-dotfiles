@@ -23,7 +23,7 @@ window#waybar {
 }
 
 /* Espaciado común de los módulos */
-#workspaces, #window, #custom-rec, #custom-recmic, #custom-keys, #custom-kana, #tray, #pulseaudio, #network, #clock {
+#workspaces, #window, #custom-rec, #custom-recmic, #custom-keys, #custom-console, #custom-kana, #tray, #pulseaudio, #network, #clock {
     padding: 0 10px;
     margin: 4px 0;
 }
@@ -76,6 +76,15 @@ window#waybar.empty #window {
 }
 #custom-keys:hover {
     color: #fe8019;
+}
+/* Botón del modo consola: tenue; verde fósforo al pasar el mouse */
+#custom-console {
+    color: #928374;
+    font-size: 14px;
+    transition: color 200ms ease;
+}
+#custom-console:hover {
+    color: #8ec07c;
 }
 #custom-kana {
     color: #d79921;

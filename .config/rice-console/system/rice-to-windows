@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+# ─────────────────────────────────────────────────────────────────────────────
+#  rice-to-windows — reinicia en Windows con un pedido del modo consola.
+#  Se instala como root en /usr/local/bin y se permite sin contraseña SOLO este
+#  archivo (ver install.sh y PENDIENTES.md). Hace exactamente tres cosas:
+#
+#   1. Copia el pedido (JSON) a la partición de arranque de Windows, en
+#      \rice\request.json — el "buzón" que lee el agente de Windows al iniciar.
+#   2. Le dice a la placa madre que el PRÓXIMO arranque (uno solo) sea Windows
+#      (efibootmgr --bootnext). El orden normal de arranque no cambia.
+#   3. Reinicia.
+#
+#  Uso: rice-to-windows /home/<usuario>/.local/state/rice-console/to-windows.json
+# ─────────────────────────────────────────────────────────────────────────────
+set -euo pipefail
+
+ESP_PARTUUID="3e24b54c-661f-47fb-bc0b-e76b0c40ef57"   # nvme0n1p1 (EFI de Windows)
+MNT=/run/rice-esp
+
+req="${1:-}"
+user="${SUDO_USER:-}"
+[ -n "$user" ] || { echo "correr con sudo desde el usuario" >&2; exit 1; }
+home=$(getent passwd "$user" | cut -d: -f6)
+# Solo se acepta el archivo de estado del propio usuario, sin enlaces
+expected="$home/.local/state/rice-console/to-windows.json"
+[ "$req" = "$expected" ] || { echo "ruta de pedido no permitida" >&2; exit 1; }
+[ -f "$req" ] && [ ! -L "$req" ] || { echo "no hay pedido" >&2; exit 1; }
+[ "$(stat -c %s "$req")" -lt 65536 ] || { echo "pedido demasiado grande" >&2; exit 1; }
+# Tiene que ser JSON válido (se copia como dato; nada se ejecuta acá)
+python3 -c 'import json,sys; json.load(open(sys.argv[1]))' "$req" || { echo "pedido inválido" >&2; exit 1; }
+
+# Entrada "Windows Boot Manager" de la placa
+num=$(efibootmgr | sed -n 's/^Boot\([0-9A-Fa-f]\{4\}\)\*\? Windows Boot Manager.*/\1/p' | head -1)
+[ -n "$num" ] || { echo "no encontré Windows Boot Manager en efibootmgr" >&2; exit 1; }
+
+dev=$(blkid -t PARTUUID="$ESP_PARTUUID" -o device | head -1)
+[ -n "$dev" ] || { echo "no encontré la partición EFI de Windows" >&2; exit 1; }
+mkdir -p "$MNT"
+mountpoint -q "$MNT" || mount -t vfat -o rw,noexec,nosuid,nodev,umask=0022 "$dev" "$MNT"
+trap 'umount "$MNT" 2>/dev/null || true' EXIT
+mkdir -p "$MNT/rice"
+cp "$req" "$MNT/rice/request.json.tmp"
+sync
+mv "$MNT/rice/request.json.tmp" "$MNT/rice/request.json"
+sync
+umount "$MNT"
+trap - EXIT
+
+efibootmgr --bootnext "$num" >/dev/null
+echo "reiniciando en Windows (Boot$num)…"
+systemctl reboot

@@ -10,6 +10,12 @@ hl.config({
         col = {
             splash = RICE_AMBER, -- color del texto de bienvenida de Hyprland
         },
+        -- Sin el fondo/logo por defecto de Hyprland: antes del arranque MAGI, negro
+        disable_hyprland_logo = true,
+        force_default_wallpaper = 0,
+        background_color = "rgb(000000)",
+        -- Si el bloqueo (rice-lock) se cae, otro (hyprlock) puede tomar la posta
+        allow_session_lock_restore = true,
         middle_click_paste = false,
         enable_swallow = true,
         swallow_regex = "(kitty|ghostty|[Kk]onsole|Alacritty|gnome-terminal|xfce[0-9]?-terminal)",

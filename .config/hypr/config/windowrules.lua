@@ -272,3 +272,18 @@ hl.layer_rule({
     match = { namespace = "^(rice-noise)$" },
     no_anim = true,
 })
+
+-- Rice: modo consola (capa "rice-console", pantalla completa). Sin animación de
+-- Hyprland: tiene su propio encendido de tubo.
+hl.layer_rule({
+    name    = "rice-console",
+    match   = { namespace = "^(rice-console)$" },
+    no_anim = true,
+})
+
+-- Rice: arranque MAGI (capa "rice-boot"): sin animación de Hyprland
+hl.layer_rule({
+    name    = "rice-boot",
+    match   = { namespace = "^(rice-boot)$" },
+    no_anim = true,
+})

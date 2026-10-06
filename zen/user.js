@@ -15,3 +15,8 @@ user_pref("browser.display.use_system_colors", false);
 // como en Windows: aparece el ícono de flechas y la página sube/baja según
 // hacia dónde muevas el mouse. En campos de texto el clic del medio sigue pegando.
 user_pref("general.autoScroll", true);
+
+// Corrector ortográfico en español (Argentina). Zen trae solo el diccionario
+// en inglés; este usa el del sistema (paquete hunspell-es_ar en /usr/share/hunspell).
+user_pref("spellchecker.dictionary_path", "/usr/share/hunspell");
+user_pref("spellchecker.dictionary", "es-AR");

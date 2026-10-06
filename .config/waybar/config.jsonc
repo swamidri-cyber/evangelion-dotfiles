@@ -18,7 +18,7 @@
 
     "modules-left":   ["hyprland/workspaces"],
     "modules-center": ["hyprland/window"],
-    "modules-right":  ["custom/rec", "custom/recmic", "custom/keys", "custom/kana", "tray", "pulseaudio", "network", "clock"],
+    "modules-right":  ["custom/rec", "custom/recmic", "custom/keys", "custom/kana", "tray", "pulseaudio", "network", "clock", "custom/console"],
 
     // ── Workspaces con números en kanji ─────────────────────────────────────
     "hyprland/workspaces": {
@@ -69,6 +69,14 @@
         "format": "鍵 SUPER+F1",
         "tooltip": false,
         "on-click": "qs -c rice-keys ipc call keys toggle"
+    },
+
+    // Botón del modo consola (menú de juegos) — también Super+G
+    "custom/console": {
+        "format": "󰖺 遊",
+        "tooltip": true,
+        "tooltip-format": "Modo consola",
+        "on-click": "qs -c rice-console ipc call console toggle"
     },
 
     "custom/kana": {

@@ -63,8 +63,10 @@ var sections = [
     ]},
     { col: 2, kanji: "系統", title: "SISTEMA", rows: [
         ["Super+F1",           "Esta hoja de atajos"],
+        ["Super+G",            "Modo consola (o botón Xbox)"],
+        ["Super+F10",          "Silenciar / activar sonidos"],
         ["Super+L",            "Bloquear pantalla"],
-        ["Super+Alt+C",        "Apagar / reiniciar / salir"],
+        ["Super+Shift+Supr",   "Apagar / reiniciar / salir"],
         ["Teclas de volumen",  "Volumen ±5 · silenciar"],
         ["Teclas multimedia",  "Play/pausa · pistas"],
     ]},

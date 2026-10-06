@@ -26,6 +26,20 @@ for d in "${CONFIG_DIRS[@]}"; do
   rsync -a --delete "${EXCLUDES[@]}" ".config/$d/" "$REPO/.config/$d/"
 done
 
+# Carpetas del rice con cosas propias de la máquina que se dejan afuera:
+# clave de SteamGridDB, lista de juegos escaneada, la máquina virtual de prueba
+# de Limine/Plymouth (GB), los limine.conf copiados de /boot (machine-id) y
+# las imágenes de prueba.
+RICE_EXCLUDES=(
+  --exclude='steamgriddb.key' --exclude='games.json' --exclude='hidden.json'
+  --exclude='vm/' --exclude='limine.conf.*' --exclude='log.txt'
+  --exclude='/p*.png' --exclude='/prev.png' --exclude='/probe*'
+)
+RICE_DIRS=(rice-console rice-sound rice-limine rice-demo)
+for d in "${RICE_DIRS[@]}"; do
+  [ -d ".config/$d" ] && rsync -a --delete "${EXCLUDES[@]}" "${RICE_EXCLUDES[@]}" ".config/$d/" "$REPO/.config/$d/"
+done
+
 # Archivos sueltos (rutas relativas a $HOME)
 FILES=(
   .config/fish/config.fish

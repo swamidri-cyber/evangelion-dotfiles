@@ -56,10 +56,12 @@ case "${1:-}" in
                 --header=$'\n電源 ─ SESIÓN\n' --header-first) || exit 0
         case "$pick" in
             *Bloquear*)      setsid -f loginctl lock-session ;;
-            *"Cerrar sesión"*) setsid -f uwsm stop ;;       # sale de Hyprland limpio (vuelve al login)
+            # Cerrar sesión / reiniciar / apagar: primero la pantalla se apaga
+            # como un tubo CRT (crt-off.sh), después corre la acción
+            *"Cerrar sesión"*) "$HOME/.config/hypr/scripts/crt-off.sh" logout ;;   # uwsm stop: vuelve al login
             *Suspender*)     setsid -f systemctl suspend ;;
-            *Reiniciar*)     setsid -f systemctl reboot ;;
-            *Apagar*)        setsid -f systemctl poweroff ;;
+            *Reiniciar*)     "$HOME/.config/hypr/scripts/crt-off.sh" reboot ;;
+            *Apagar*)        "$HOME/.config/hypr/scripts/crt-off.sh" poweroff ;;
         esac
         ;;
 

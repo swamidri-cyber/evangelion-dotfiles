@@ -1,0 +1,319 @@
+# ─────────────────────────────────────────────────────────────────────────────
+#  rice-magi — pantalla de carga de Linux, diseño "SINCRONÍA" (cabina de
+#  prueba de sincronización). Encendido de tubo (punto → línea → imagen con
+#  fogonazo), osciloscopios moviéndose, barras A10, anillo girando y el dial
+#  que se llena con el progreso real hasta 99,8 %.
+#  Al apagar / reiniciar muestra lo mismo con 接続解除 / 再接続.
+#  Encima: glitch digital a ráfagas (bloques del fondo corridos, renglones
+#  que saltan) y grano que cambia.
+#  Imágenes: ~/.config/rice-limine/render-sync.qml  (diseño anterior: rice-magi-v1)
+# ─────────────────────────────────────────────────────────────────────────────
+
+W = Window.GetWidth();
+H = Window.GetHeight();
+S = W / 1920;                      # todo está diseñado en 1920×1080
+if (H / 1080 < S) S = H / 1080;
+OX = (W - 1920 * S) / 2;           # centrado si la pantalla no es 16:9
+OY = (H - 1080 * S) / 2;
+Window.SetBackgroundTopColor(0, 0, 0);
+Window.SetBackgroundBottomColor(0, 0, 0);
+
+fun load(name) {
+    local.img = Image(name);
+    if (S != 1) local.img = local.img.Scale(Math.Int(local.img.GetWidth() * S + 0.5), Math.Int(local.img.GetHeight() * S + 0.5));
+    return local.img;
+}
+fun place(spr, x, y, z) {
+    spr.SetX(OX + x * S); spr.SetY(OY + y * S); spr.SetZ(z);
+}
+
+# nombres con dos cifras sin convertir números a texto
+D[0] = "0"; D[1] = "1"; D[2] = "2"; D[3] = "3"; D[4] = "4";
+D[5] = "5"; D[6] = "6"; D[7] = "7"; D[8] = "8"; D[9] = "9";
+fun two(n) { return D[Math.Int(n / 10)] + D[n % 10]; }
+
+# ── Fondo ────────────────────────────────────────────────────────────────────
+bgImg = load("bg.png");
+bg = Sprite(bgImg); place(bg, 0, 0, 0);
+
+# ── Glitch digital: pedazos del fondo que aparecen corridos, a saltos ───────
+#  Como un video comprimido que se rompe: macrobloques (128×32 o 32×16) que
+#  muestran otro pedazo del fondo y renglones finos que saltan de costado.
+#  Va a 12 cuadros por segundo, en ráfagas cortas (ver refresh()).
+#  Versión anterior (interferencia VHS): ../rice-magi.script.antes-glitch
+BGW = bgImg.GetWidth(); BGH = bgImg.GetHeight();
+BLK_N = 28;                        # bloques en pantalla como máximo
+SLICES = 6;                        # los primeros son renglones finos
+GLITCH = 0.3;                      # fracción de bloques que se muestran en cada cuadro
+for (i = 0; i < BLK_N; i++) { blk[i] = Sprite(); blk[i].SetZ(4); blk[i].SetOpacity(0); }
+glitchSlot = -1;
+
+fun glitch_hide() {
+    for (local.i = 0; local.i < BLK_N; local.i++) blk[local.i].SetOpacity(0);
+}
+
+fun glitch_frame(gt) {
+    for (local.i = 0; local.i < BLK_N; local.i++) {
+        local.spr = blk[local.i];
+        local.h0 = gt * 7.31 + local.i * 1.913;
+        if (hash(local.h0) > GLITCH) { local.spr.SetOpacity(0); continue; }
+        if (local.i < SLICES) {
+            # renglón fino entero, corrido de costado
+            local.bh = Math.Int(4 * S) + 1;
+            local.y = Math.Int(hash(local.h0 + 0.47) * (BGH - local.bh));
+            local.spr.SetImage(bgImg.Crop(0, local.y, BGW, local.bh));
+            local.spr.SetX(OX + Math.Int((hash(local.h0 + 0.59) - 0.5) * 0.22 * BGW));
+            local.spr.SetY(OY + local.y);
+            local.spr.SetOpacity(1);
+            continue;
+        }
+        local.bw = Math.Int(32 * S); local.bh = Math.Int(16 * S);
+        if (hash(local.h0 + 0.21) > 0.45) { local.bw = Math.Int(128 * S); local.bh = Math.Int(32 * S); }
+        # alineado a la grilla de bloques, como en un video comprimido
+        local.x = Math.Int(hash(local.h0 + 0.33) * Math.Int(BGW / local.bw)) * local.bw;
+        local.y = Math.Int(hash(local.h0 + 0.47) * Math.Int(BGH / local.bh)) * local.bh;
+        # de dónde sale: corrido de costado y a veces de más arriba/abajo
+        local.sx = local.x + Math.Int((hash(local.h0 + 0.59) - 0.5) * 0.16 * BGW);
+        local.sy = local.y;
+        if (hash(local.h0 + 0.71) > 0.65) local.sy = local.y + Math.Int((hash(local.h0 + 0.83) - 0.5) * 0.05 * BGH);
+        if (local.sx < 0) local.sx = 0;
+        if (local.sx > BGW - local.bw) local.sx = BGW - local.bw;
+        if (local.sy < 0) local.sy = 0;
+        if (local.sy > BGH - local.bh) local.sy = BGH - local.bh;
+        local.spr.SetImage(bgImg.Crop(local.sx, local.sy, local.bw, local.bh));
+        local.spr.SetX(OX + local.x); local.spr.SetY(OY + local.y);
+        local.spr.SetOpacity(1);
+    }
+}
+fun hash(n) {                      # 0 ≤ hash < 1 (Math.Int corta hacia el cero: los negativos se corrigen)
+    local.x = Math.Sin(n * 127.1 + 311.7) * 43758.5453;
+    local.x = local.x - Math.Int(local.x);
+    if (local.x < 0) local.x = local.x + 1;
+    return local.x;
+}
+fun frac(x) { return x - Math.Int(x); }
+
+# ── Filtros del arranque MAGI (rice-boot/shaders/post.frag) ─────────────────
+# Grano: claro + oscuro (como col += (n - 0.5) * GRAIN), 4 cuadros sorteados a 24 fps
+for (i = 0; i < 4; i++) {
+    grainL[i] = Image("grain-l" + D[i] + ".png").Scale(W, H);
+    grainD[i] = Image("grain-d" + D[i] + ".png").Scale(W, H);
+}
+gL = Sprite(grainL[0]); gL.SetX(0); gL.SetY(0); gL.SetZ(8);
+gD = Sprite(grainD[0]); gD.SetX(0); gD.SetY(0); gD.SetZ(8);
+grainSlot = -1;
+# Parpadeo del tubo: velo negro que respira (flick = 1 + 0,025·sin(57t) + ruido a 18 Hz)
+veil = Sprite(Image("dark.png").Scale(W, H)); veil.SetX(0); veil.SetY(0); veil.SetZ(8); veil.SetOpacity(0);
+
+# ── Osciloscopios (izquierda): 30 cuadros por canal, cada uno a su ritmo ────
+WAVES = 30;
+SCOPE_Y[0] = 170; SCOPE_Y[1] = 400; SCOPE_Y[2] = 630;
+WAVE_SPEED[0] = 22; WAVE_SPEED[1] = 15; WAVE_SPEED[2] = 27;   # cuadros por segundo
+for (c = 0; c < 3; c++) {
+    for (f = 0; f < WAVES; f++) waveImg[c * WAVES + f] = load("wave" + D[c] + "-" + two(f) + ".png");
+    wave[c] = Sprite(); place(wave[c], 60, SCOPE_Y[c], 2);
+    waveShown[c] = -1;
+}
+
+# ── Barras A10 (derecha) ─────────────────────────────────────────────────────
+BARS = 24; BAR_X = 1340; BAR_Y = 200; BAR_H = 200; BAR_W = 14; BAR_GAP = 8;
+barImg = Image("bar.png");
+for (i = 0; i < BARS; i++) { bars[i] = Sprite(); bars[i].SetZ(2); barShown[i] = -1; }
+
+# ── Dial: 50 segmentos (una imagen por ángulo, centrada en su lugar) ───────
+SEGS = 50; CX = 960; CY = 540; SEG_R = 300;
+for (i = 0; i < SEGS; i++) {
+    a = (135 + 270 * (i + 0.5) / SEGS) * 3.14159265 / 180;
+    seg[i] = Sprite(load("seg" + two(i) + ".png"));
+    place(seg[i], CX + SEG_R * Math.Cos(a) - 30, CY + SEG_R * Math.Sin(a) - 30, 3);
+    seg[i].SetOpacity(0);
+}
+
+# anillo punteado que gira alrededor del dial
+ringImg = Image("ring.png");
+RING = Math.Int(800 * S);
+ringImg = ringImg.Scale(RING, RING);
+ring = Sprite(ringImg); ring.SetZ(1);
+ring.SetX(OX + CX * S - RING / 2); ring.SetY(OY + CY * S - RING / 2);
+
+# ── Porcentaje en el centro del dial: "99,8%" ───────────────────────────────
+for (i = 0; i < 10; i++) digit[i] = load("d-" + D[i] + ".png");
+comma = load("d-comma.png");
+pct = load("d-pct.png");
+DW = digit[0].GetWidth() / S; PW = pct.GetWidth() / S; DIG_Y = 465;
+CW = comma.GetWidth() / S * 0.5;   # avance de la coma (monoespaciada: sobra aire)
+CSHIFT = comma.GetWidth() / S * 0.25;
+for (i = 0; i < 6; i++) { num[i] = Sprite(); num[i].SetZ(3); }
+numShown = -1;
+
+fun show_number(v) {               # v = décimas (0 … 998)
+    if (v == numShown) return;
+    numShown = v;
+    local.whole = Math.Int(v / 10);
+    local.n = 0;
+    if (local.whole >= 100) { local.c[local.n] = digit[1]; local.cw[local.n] = DW; local.n++; }
+    if (local.whole >= 10)  { local.c[local.n] = digit[Math.Int(local.whole / 10) % 10]; local.cw[local.n] = DW; local.n++; }
+    local.c[local.n] = digit[local.whole % 10]; local.cw[local.n] = DW; local.n++;
+    local.c[local.n] = comma;                   local.cw[local.n] = CW; local.n++;
+    local.c[local.n] = digit[v % 10];           local.cw[local.n] = DW; local.n++;
+    local.c[local.n] = pct;                     local.cw[local.n] = PW; local.n++;
+    local.total = 0;
+    for (local.i = 0; local.i < local.n; local.i++) local.total += local.cw[local.i];
+    local.x = CX - local.total / 2;
+    for (local.i = 0; local.i < 6; local.i++) {
+        if (local.i < local.n) {
+            num[local.i].SetImage(local.c[local.i]);
+            local.sx = local.x;
+            if (local.c[local.i] == comma) local.sx = local.x - CSHIFT;
+            place(num[local.i], local.sx, DIG_Y, 3);
+            num[local.i].SetOpacity(1);
+            local.x += local.cw[local.i];
+        } else num[local.i].SetOpacity(0);
+    }
+}
+
+# ── Rótulo de modo (en el hueco de abajo del dial) y ENLACE ESTABLE ─────────
+mode = Plymouth.GetMode();
+if (mode == "shutdown") labelName = "label-shutdown.png";
+else if (mode == "reboot") labelName = "label-reboot.png";
+else labelName = "label-boot.png";
+label = Sprite(load(labelName)); place(label, CX - 320, CY + 175, 3);
+
+online = Sprite(load("online.png")); place(online, CX - 150, 900, 3);
+
+progress = 0;
+
+# ── Encendido de tubo ────────────────────────────────────────────────────────
+black = Image("black.png");
+curtainTop = Sprite(black.Scale(W, H)); curtainTop.SetX(0); curtainTop.SetY(0); curtainTop.SetZ(10);
+curtainBot = Sprite(); curtainBot.SetX(0); curtainBot.SetZ(10);
+lineImg = Image("line.png");
+line = Sprite(); line.SetZ(11);
+flash = Sprite(Image("flash.png").Scale(W, H)); flash.SetX(0); flash.SetY(0); flash.SetZ(9); flash.SetOpacity(0);   # debajo de las cortinas: ilumina solo lo que se abre
+
+t = 0;
+tick = 0;
+POWER = 0.6;                       # segundos que dura el encendido
+
+fun ease(x) { if (x < 0) x = 0; if (x > 1) x = 1; return 1 - (1 - x) * (1 - x) * (1 - x); }
+
+fun refresh() {
+    t = t + 1 / 50;
+    tick++;
+
+    # ── Encendido: punto → línea → se abre en vertical ──────────────────────
+    if (t < POWER + 0.05) {
+        p = t / POWER;
+        if (p < 0.3) {
+            lw = Math.Int(W * ease(p / 0.3)) + 6;
+            line.SetImage(lineImg.Scale(lw, Math.Int(24 * S) + 1));
+            line.SetX(W / 2 - lw / 2); line.SetY(H / 2 - 12 * S);
+            line.SetOpacity(1);
+            flash.SetOpacity(0);
+        } else {
+            h = Math.Int(H * ease((p - 0.3) / 0.7)) + 4;
+            if (h > H) h = H;
+            top = Math.Int(H / 2 - h / 2);
+            if (top > 0) {
+                curtainTop.SetImage(black.Scale(W, top)); curtainTop.SetOpacity(1);
+                curtainBot.SetImage(black.Scale(W, top + 2)); curtainBot.SetY(H / 2 + h / 2); curtainBot.SetOpacity(1);
+            } else {
+                curtainTop.SetOpacity(0); curtainBot.SetOpacity(0);
+            }
+            line.SetImage(lineImg.Scale(W, Math.Int(24 * S) + 1));
+            line.SetX(0); line.SetY(H / 2 - 12 * S);
+            line.SetOpacity(1 - ease((p - 0.3) / 0.4));
+            f = 1 - (p - 0.3) / 0.7;
+            if (f < 0) f = 0;
+            flash.SetOpacity(0.4 * f * f);
+        }
+        if (t >= POWER) {
+            curtainTop.SetOpacity(0); curtainBot.SetOpacity(0); line.SetOpacity(0); flash.SetOpacity(0);
+        }
+    }
+
+    # ── Glitch digital: cada 1,2 s una chance (70 %) de una ráfaga de
+    #    0,08–0,3 s que además parpadea cuadro a cuadro (12 fps) ──────────────
+    if (t > POWER) {
+        gt = Math.Int(t * 12);
+        if (gt != glitchSlot) {
+            glitchSlot = gt;
+            slot = Math.Int(t / 1.2);
+            gph = t - slot * 1.2 - hash(slot + 0.13) * 0.8;
+            glen = 0.08 + 0.22 * hash(slot + 0.29);
+            if (gph >= 0 && gph <= glen && hash(slot + 0.41) > 0.3 && hash(gt + 0.53) > 0.25) glitch_frame(gt);
+            else glitch_hide();
+        }
+    }
+
+    # ── Grano (24 fps, cuadro al azar para que no se note la repetición) ────
+    gs = Math.Int(t * 24);
+    if (gs != grainSlot) {
+        grainSlot = gs;
+        gL.SetImage(grainL[Math.Int(hash(gs) * 4) % 4]);
+        gD.SetImage(grainD[Math.Int(hash(gs + 0.37) * 4) % 4]);
+    }
+    # ── Parpadeo del tubo ───────────────────────────────────────────────────
+    veil.SetOpacity(0.04 + 0.025 * Math.Sin(t * 57) + 0.04 * (hash(Math.Int(t * 18) + 0.11) - 0.5));
+
+    # ── Osciloscopios ───────────────────────────────────────────────────────
+    for (c = 0; c < 3; c++) {
+        fr = Math.Int(t * WAVE_SPEED[c]) % WAVES;
+        if (fr != waveShown[c]) { wave[c].SetImage(waveImg[c * WAVES + fr]); waveShown[c] = fr; }
+    }
+
+    # ── Barras A10 (cada 3 cuadros, la misma fórmula que el menú) ───────────
+    if (tick % 3 == 0) {
+        for (i = 0; i < BARS; i++) {
+            v = 0.35 + 0.6 * Math.Abs(Math.Sin(i * 0.9 + t * (1.3 + (i % 5) * 0.21)) * Math.Cos(i * 0.37 + t * 0.7));
+            bh = Math.Int(BAR_H * v * S);
+            if (bh < 1) bh = 1;
+            if (bh != barShown[i]) {
+                bars[i].SetImage(barImg.Scale(Math.Int(BAR_W * S), bh));
+                bars[i].SetX(OX + (BAR_X + i * (BAR_W + BAR_GAP)) * S);
+                bars[i].SetY(OY + BAR_Y * S + BAR_H * S - bh);
+                barShown[i] = bh;
+            }
+        }
+    }
+
+    # ── Anillo girando ──────────────────────────────────────────────────────
+    if (tick % 3 == 0) ring.SetImage(ringImg.Rotate(t * 0.9));
+
+    # ── Sincronía: progreso real de Plymouth, con un mínimo que avanza solo ─
+    fake = 1 - 1 / (1 + t * 0.35);
+    pr = progress;
+    if (fake > pr) pr = fake;
+    if (pr > 1) pr = 1;
+    lit = Math.Int(pr * (SEGS - 1) + 0.5);     # 49 segmentos = 99,8 %, como el menú
+    for (i = 0; i < SEGS; i++) {
+        if (i < lit) {
+            if (i >= lit - 3) seg[i].SetOpacity(1); else seg[i].SetOpacity(0.8);
+        } else if (i == lit) {
+            # el próximo segmento titila mientras carga
+            if (Math.Int(t * 6) % 2 == 0) seg[i].SetOpacity(0.35); else seg[i].SetOpacity(0.1);
+        } else seg[i].SetOpacity(0);
+    }
+    show_number(Math.Int(pr * 998 + 0.5));
+
+    # ── ENLACE ESTABLE titila ───────────────────────────────────────────────
+    if (Math.Int(t * 2.2) % 2 == 0) online.SetOpacity(1); else online.SetOpacity(0.35);
+}
+Plymouth.SetRefreshFunction(refresh);
+
+fun boot_progress(time, value) { progress = value; }
+Plymouth.SetBootProgressFunction(boot_progress);
+
+# ── Contraseña (por si algún día hay disco cifrado) ─────────────────────────
+pwSprite = Sprite(); pwSprite.SetZ(20);
+fun show_password(prompt, bullets) {
+    s = prompt + "  ";
+    for (i = 0; i < bullets; i++) s = s + "● ";
+    img = Image.Text(s, 1, 0.6, 0.2);
+    pwSprite.SetImage(img);
+    pwSprite.SetX(W / 2 - img.GetWidth() / 2); pwSprite.SetY(OY + 950 * S);
+    pwSprite.SetOpacity(1);
+}
+fun hide_password() { pwSprite.SetOpacity(0); }
+Plymouth.SetDisplayPasswordFunction(show_password);
+Plymouth.SetDisplayNormalFunction(hide_password);

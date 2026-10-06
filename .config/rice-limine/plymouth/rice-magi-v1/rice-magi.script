@@ -1,0 +1,144 @@
+# ─────────────────────────────────────────────────────────────────────────────
+#  rice-magi — pantalla de carga de Linux con la estética del arranque MAGI.
+#  Encendido de tubo (punto → línea → imagen con fogonazo), código corriendo
+#  en los paneles, anillo girando, barra de progreso real y "EN LÍNEA".
+#  Al apagar / reiniciar muestra lo mismo con 停止 / 再起動.
+#  Imágenes: ~/.config/rice-limine/render-plymouth.qml
+# ─────────────────────────────────────────────────────────────────────────────
+
+W = Window.GetWidth();
+H = Window.GetHeight();
+S = W / 1920;                      # todo está diseñado en 1920×1080
+if (H / 1080 < S) S = H / 1080;
+OX = (W - 1920 * S) / 2;           # centrado si la pantalla no es 16:9
+OY = (H - 1080 * S) / 2;
+Window.SetBackgroundTopColor(0, 0, 0);
+Window.SetBackgroundBottomColor(0, 0, 0);
+
+fun load(name) {
+    local.img = Image(name);
+    if (S != 1) local.img = local.img.Scale(Math.Int(local.img.GetWidth() * S + 0.5), Math.Int(local.img.GetHeight() * S + 0.5));
+    return local.img;
+}
+fun place(spr, x, y, z) {
+    spr.SetX(OX + x * S); spr.SetY(OY + y * S); spr.SetZ(z);
+}
+
+# ── Capas ────────────────────────────────────────────────────────────────────
+bg = Sprite(load("bg.png")); place(bg, 0, 0, 0);
+
+PANEL_TOP = 184;
+LOOP = 17 * 96;                    # alto de una vuelta de la tira de código
+stripL = Sprite(load("strip-left.png"));  place(stripL, 56, PANEL_TOP, 1);
+stripR = Sprite(load("strip-right.png")); place(stripR, 1546, PANEL_TOP, 1);
+m1 = Sprite(load("mask-lt.png")); place(m1, 45, 0, 2);
+m2 = Sprite(load("mask-lb.png")); place(m2, 45, 900, 2);
+m3 = Sprite(load("mask-rt.png")); place(m3, 1535, 0, 2);
+m4 = Sprite(load("mask-rb.png")); place(m4, 1535, 900, 2);
+
+ringImg = Image("ring.png");
+RING = Math.Int(270 * S);
+ringImg = ringImg.Scale(RING, RING);
+ring = Sprite(ringImg); ring.SetZ(3);
+ring.SetX(OX + 960 * S - RING / 2); ring.SetY(OY + 395 * S - RING / 2);
+
+mode = Plymouth.GetMode();
+if (mode == "shutdown") labelName = "label-shutdown.png";
+else if (mode == "reboot") labelName = "label-reboot.png";
+else labelName = "label-boot.png";
+label = Sprite(load(labelName)); place(label, 960 - 310, 545, 3);
+
+online = Sprite(load("online.png")); place(online, 960 - 130, 758, 3);
+
+amber = Image("amber.png");
+bar = Sprite(); place(bar, 702, 702, 3);
+progress = 0;
+shown = -1;
+
+# Encendido de tubo
+black = Image("black.png");
+curtainTop = Sprite(black.Scale(W, H)); curtainTop.SetX(0); curtainTop.SetY(0); curtainTop.SetZ(10);
+curtainBot = Sprite(); curtainBot.SetX(0); curtainBot.SetZ(10);
+lineImg = Image("line.png");
+line = Sprite(); line.SetZ(11);
+flash = Sprite(Image("flash.png").Scale(W, H)); flash.SetX(0); flash.SetY(0); flash.SetZ(9); flash.SetOpacity(0);   # debajo de las cortinas: ilumina solo lo que se abre
+
+t = 0;
+POWER = 0.6;                       # segundos que dura el encendido
+
+fun ease(x) { if (x < 0) x = 0; if (x > 1) x = 1; return 1 - (1 - x) * (1 - x) * (1 - x); }
+
+fun refresh() {
+    t = t + 1 / 50;
+
+    # ── Encendido: punto → línea → se abre en vertical ──────────────────────
+    if (t < POWER + 0.05) {
+        p = t / POWER;
+        if (p < 0.3) {
+            lw = Math.Int(W * ease(p / 0.3)) + 6;
+            line.SetImage(lineImg.Scale(lw, Math.Int(24 * S) + 1));
+            line.SetX(W / 2 - lw / 2); line.SetY(H / 2 - 12 * S);
+            line.SetOpacity(1);
+            flash.SetOpacity(0);
+        } else {
+            h = Math.Int(H * ease((p - 0.3) / 0.7)) + 4;
+            if (h > H) h = H;
+            top = Math.Int(H / 2 - h / 2);
+            if (top > 0) {
+                curtainTop.SetImage(black.Scale(W, top)); curtainTop.SetOpacity(1);
+                curtainBot.SetImage(black.Scale(W, top + 2)); curtainBot.SetY(H / 2 + h / 2); curtainBot.SetOpacity(1);
+            } else {
+                curtainTop.SetOpacity(0); curtainBot.SetOpacity(0);
+            }
+            line.SetImage(lineImg.Scale(W, Math.Int(24 * S) + 1));
+            line.SetX(0); line.SetY(H / 2 - 12 * S);
+            line.SetOpacity(1 - ease((p - 0.3) / 0.4));
+            f = 1 - (p - 0.3) / 0.7;
+            if (f < 0) f = 0;
+            flash.SetOpacity(0.4 * f * f);
+        }
+        if (t >= POWER) {
+            curtainTop.SetOpacity(0); curtainBot.SetOpacity(0); line.SetOpacity(0); flash.SetOpacity(0);
+        }
+    }
+
+    # ── Código corriendo (sube sin parar, en bucle) ─────────────────────────
+    off = t * 95;
+    off = off - Math.Int(off / LOOP) * LOOP;
+    stripL.SetY(OY + (PANEL_TOP - off) * S);
+    off2 = t * 38 + 300;
+    off2 = off2 - Math.Int(off2 / LOOP) * LOOP;
+    stripR.SetY(OY + (PANEL_TOP - off2) * S);
+
+    # ── Anillo girando ──────────────────────────────────────────────────────
+    if (Math.Int(t * 50) % 2 == 0) ring.SetImage(ringImg.Rotate(t * 1.6));
+
+    # ── EN LÍNEA titila ─────────────────────────────────────────────────────
+    if (Math.Int(t * 2.2) % 2 == 0) online.SetOpacity(1); else online.SetOpacity(0.35);
+
+    # ── Barra: progreso real de Plymouth, con un mínimo que avanza solo ─────
+    fake = 1 - 1 / (1 + t * 0.35);
+    pr = progress;
+    if (fake > pr) pr = fake;
+    if (pr > 1) pr = 1;
+    bw = Math.Int(516 * S * pr);
+    if (bw != shown && bw > 0) { bar.SetImage(amber.Scale(bw, Math.Int(10 * S) + 1)); shown = bw; }
+}
+Plymouth.SetRefreshFunction(refresh);
+
+fun boot_progress(time, value) { progress = value; }
+Plymouth.SetBootProgressFunction(boot_progress);
+
+# ── Contraseña (por si algún día hay disco cifrado) ─────────────────────────
+pwSprite = Sprite(); pwSprite.SetZ(20);
+fun show_password(prompt, bullets) {
+    s = prompt + "  ";
+    for (i = 0; i < bullets; i++) s = s + "● ";
+    img = Image.Text(s, 1, 0.6, 0.2);
+    pwSprite.SetImage(img);
+    pwSprite.SetX(W / 2 - img.GetWidth() / 2); pwSprite.SetY(OY + 830 * S);
+    pwSprite.SetOpacity(1);
+}
+fun hide_password() { pwSprite.SetOpacity(0); }
+Plymouth.SetDisplayPasswordFunction(show_password);
+Plymouth.SetDisplayNormalFunction(hide_password);

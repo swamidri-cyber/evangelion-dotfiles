@@ -38,6 +38,12 @@ layout(location = 0) out vec4 fragColor;
 // ── Curvatura (0 = pantalla plana, 1 = vidrio abombado) ─────────────────────
 // No cambies este 0 a mano: Super+F11 genera la versión curva automáticamente.
 #define CURVE_ON 0
+// Modo consola (rice-console): pantalla en fósforo VERDE monocromo, como un
+// sistema en hibernación. shader.lua genera una copia con GREEN_MODE 1.
+#define GREEN_MODE 0
+const vec3  GREEN_DARK  = vec3(0.008, 0.035, 0.018); // negro verdoso del tubo
+const vec3  GREEN_LIGHT = vec3(0.82, 1.0, 0.80);     // blanco fósforo
+const float GREEN_KEEP  = 0.35;   // cuánto color original se cuela (0 = puro verde; 0.08 = verde 1, 0.35 = verde 2)
 const float CURVE       = 0.025;  // intensidad de la curva (0.015 = apenas, 0.05 = notoria)
 const float BEZEL       = 0.008;  // ancho del marco negro (fracción de pantalla; antes 0.018)
 const float CORNER      = 0.055;  // radio de las esquinas de la imagen (fracción del alto)
@@ -73,6 +79,9 @@ float luma(vec3 c) { return dot(c, vec3(0.299, 0.587, 0.114)); }
 
 // Cuánto "brilla" un color: tiene que ser claro Y cálido (rojo > azul)
 float glowMask(vec3 c) {
+#if GREEN_MODE
+    return smoothstep(GLOW_TH, 1.0, luma(c));   // en verde brilla todo lo claro
+#endif
     float warm = smoothstep(0.0, GLOW_WARM, c.r - c.b);
     return smoothstep(GLOW_TH, 1.0, luma(c)) * warm;
 }
@@ -156,6 +165,12 @@ void main() {
 
     // 6. Tinte cálido
     col *= TINT;
+
+#if GREEN_MODE
+    // 7. Fósforo verde: el brillo de cada píxel elige un tono de la rampa verde
+    float gl = clamp(luma(col), 0.0, 1.0);
+    col = mix(mix(GREEN_DARK, GREEN_LIGHT, pow(gl, 0.85)), col, GREEN_KEEP);
+#endif
 
     fragColor = vec4(clamp(col, 0.0, 1.0), 1.0);
 }

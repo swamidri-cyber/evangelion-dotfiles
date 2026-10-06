@@ -1,0 +1,8 @@
+[Plymouth Theme]
+Name=rice-magi
+Description=Pantalla de carga con la estetica del arranque MAGI (encendido de tubo, codigo, anillo)
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/rice-magi
+ScriptFile=/usr/share/plymouth/themes/rice-magi/rice-magi.script

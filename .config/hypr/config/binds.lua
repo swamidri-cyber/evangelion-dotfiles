@@ -159,7 +159,7 @@ hl.bind(mainMod .. " + period",     hl.dsp.exec_cmd(act.emoji))
 local qsKeys = "qs -c rice-keys ipc call keys toggle"
 hl.bind(mainMod .. " + F1",         hl.dsp.exec_cmd(qsKeys .. " || { qs -c rice-keys -d && sleep 0.6 && " .. qsKeys .. "; }"))
 hl.bind(mainMod .. " + L",          hl.dsp.exec_cmd(act.lock))
-hl.bind(mainMod .. " + ALT + C",    hl.dsp.exec_cmd(act.session))
+hl.bind(mainMod .. " + SHIFT + Delete", hl.dsp.exec_cmd(act.session))   -- menú apagar/reiniciar/salir (antes Super+Alt+C)
 
 ---------------------------
 ---- HARDWARE CONTROLS ----
@@ -233,10 +233,16 @@ hl.bind(mainMod .. " + Left",                  hl.dsp.focus({ workspace = "m-1" 
 hl.bind(mainMod .. " + Down",                  hl.dsp.focus({ workspace = "emptym" }))   -- escritorio vacío (antes Super+Ctrl+↓)
 
 -- Scroll through existing workspaces & monitors
-hl.bind(mainMod .. " + mouse_down",           hl.dsp.focus({ workspace = "m-1" }))
-hl.bind(mainMod .. " + mouse_up",             hl.dsp.focus({ workspace = "m+1" }))
-hl.bind(mainMod .. " + CONTROL + mouse_up",   hl.dsp.focus({ workspace = "m-1" }))
-hl.bind(mainMod .. " + CONTROL + mouse_down", hl.dsp.focus({ workspace = "m+1" }))
+-- Ruedita arriba = escritorio anterior (izquierda), abajo = siguiente (derecha).
+-- Con Ctrl, al revés.
+hl.bind(mainMod .. " + mouse_up",             hl.dsp.focus({ workspace = "m-1" }))
+hl.bind(mainMod .. " + mouse_down",           hl.dsp.focus({ workspace = "m+1" }))
+hl.bind(mainMod .. " + CONTROL + mouse_down", hl.dsp.focus({ workspace = "m-1" }))
+hl.bind(mainMod .. " + CONTROL + mouse_up",   hl.dsp.focus({ workspace = "m+1" }))
+-- Sin pausa entre giros de ruedita para los atajos: con la pausa por defecto
+-- (300 ms) los giros que caían en ella le llegaban a la app de abajo, que se
+-- desplazaba antes de cambiar de escritorio. Ahora cada muesca = un escritorio.
+hl.config({ binds = { scroll_event_delay = 0 } })
 
 -- Special workspace (scratchpad)
 hl.bind(mainMod .. " + ALT + S",   hl.dsp.window.move({ workspace = "special" }))   -- antes Super+Shift+S (ahora es el menú de capturas)
@@ -245,3 +251,11 @@ hl.bind(mainMod .. " + S",         hl.dsp.workspace.toggle_special())
 -- Arroba con Ctrl+Alt+Q (como en Windows). En el teclado latam la @ es AltGr+Q;
 -- este atajo le manda AltGr+Q (MOD5) a la ventana activa. code:24 = tecla Q.
 hl.bind("CONTROL + ALT + code:24", hl.dsp.send_shortcut({ mods = "MOD5", key = "Q" }))
+
+-- Modo consola (menú de juegos entre Linux y Windows, Quickshell rice-console).
+-- Super+G (G de "games"). También abre con el botón Xbox del control (si
+-- Steam no lo usa), con la ventanita del escritorio y el botón de la Waybar.
+hl.bind(mainMod .. " + G", hl.dsp.exec_cmd("qs -c rice-console ipc call console toggle"))
+
+-- Sonidos del sistema (rice-sound): silenciar / activar todo
+hl.bind(mainMod .. " + F10", hl.dsp.exec_cmd("qs -c rice-sound ipc call sound toggle"))

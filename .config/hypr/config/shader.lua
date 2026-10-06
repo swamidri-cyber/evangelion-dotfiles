@@ -30,22 +30,28 @@ hl.config({ debug = { damage_tracking = 1 } })
 local crtOn, curveOn = CRT_ON_START, CURVE_ON_START
 local fsPaused = false   -- true mientras hay algo en pantalla completa
 local gameOn   = false   -- true mientras hay un juego abierto
-
--- Genera la versión curva copiando crt.frag con CURVE_ON = 1
-local function buildCurved()
-    local f = io.open(CRT_SHADER, "r")
-    if not f then return false end
-    local src = f:read("a"); f:close()
-    src = src:gsub("#define CURVE_ON 0", "#define CURVE_ON 1", 1)
-    local out = io.open(CRT_CURVED, "w")
-    if not out then return false end
-    out:write(src); out:close()
-    return true
+local greenOn  = false   -- true mientras está abierto el modo consola (rice-console)
+local holdOff  = false   -- true durante el apagado de tubo (rice-off ya muestra la foto con el efecto)
+local cursorHidden = false   -- true mientras arranca el modo consola (sin flecha en pantalla)
+local function applyCursor()
+    hl.config({ cursor = { invisible = holdOff or cursorHidden } })
 end
 
--- Aplica el estado actual. Con curvatura se usa cursor por software: así la
--- flecha se deforma junto con la imagen y siempre señala lo que realmente
--- vas a clickear (ver explicación en crt.frag / mensaje del rice).
+-- Genera una copia de crt.frag con la curvatura y/o el modo verde activados
+-- (las variantes se escriben en $XDG_RUNTIME_DIR y se regeneran solas)
+local function buildVariant(curve, green)
+    local f = io.open(CRT_SHADER, "r")
+    if not f then return nil end
+    local src = f:read("a"); f:close()
+    if curve then src = src:gsub("#define CURVE_ON 0", "#define CURVE_ON 1", 1) end
+    if green then src = src:gsub("#define GREEN_MODE 0", "#define GREEN_MODE 1", 1) end
+    local path = CRT_CURVED:gsub("curved", (curve and "curved" or "flat") .. (green and "-green" or ""))
+    local out = io.open(path, "w")
+    if not out then return nil end
+    out:write(src); out:close()
+    return path
+end
+
 -- El ruido de las apps (Quickshell rice-static) sigue al CRT: se le avisa por
 -- IPC solo cuando cambia, y el estado queda en un archivo por si rice-static
 -- arranca/reinicia después.
@@ -60,11 +66,11 @@ end
 
 local function apply()
     local path = ""
-    local on = crtOn and not fsPaused and not gameOn
+    local on = crtOn and not fsPaused and not gameOn and not holdOff
     syncNoise(on)
     if on then
         path = CRT_SHADER
-        if curveOn and buildCurved() then path = CRT_CURVED end
+        if curveOn or greenOn then path = buildVariant(curveOn, greenOn) or CRT_SHADER end
     end
     hl.config({
         decoration = { screen_shader = path },
@@ -73,6 +79,32 @@ local function apply()
 end
 
 apply()
+
+-- Modo consola: el menú de juegos (Quickshell rice-console) lo llama al abrir
+-- y cerrar:  hyprctl dispatch "riceConsole(true)"  /  "riceConsole(false)"
+function riceConsole(on)
+    greenOn = on and true or false
+    apply()
+    return hl.dsp.exec_cmd("true")   -- hyprctl dispatch espera una acción: una vacía
+end
+
+-- Apagado de tubo (rice-off): saca una foto de la pantalla CON el efecto y
+-- pide apagarlo mientras la anima, para no aplicarlo dos veces.
+--   hyprctl dispatch "riceShaderHold(true)"  /  "riceShaderHold(false)"
+function riceShaderHold(on)
+    holdOff = on and true or false
+    apply()
+    applyCursor()   -- sin flecha flotando en el medio
+    return hl.dsp.exec_cmd("true")
+end
+
+-- Ocultar el cursor (lo usa el modo consola mientras arranca)
+--   hyprctl dispatch "riceCursorHide(true)"  /  "riceCursorHide(false)"
+function riceCursorHide(on)
+    cursorHidden = on and true or false
+    applyCursor()
+    return hl.dsp.exec_cmd("true")
+end
 
 hl.bind("SUPER + F12", function() crtOn = not crtOn; apply() end)
 hl.bind("SUPER + F11", function() curveOn = not curveOn; crtOn = true; apply() end)
