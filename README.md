@@ -47,24 +47,81 @@ lanzador, terminales, atajos, efecto CRT, Zen, Dolphin y el modo consola.
 
 ## Atajos
 
+Los mismos que muestra la hoja de **Super+F1**.
+
+**Abrir apps**
+
 | Teclas | Acción |
 |---|---|
 | Super+Espacio | Lanzador de apps |
 | Super+Enter | Terminal (kitty) |
 | Super+W / Super+E | Navegador (Zen) / Archivos (Dolphin) |
-| Super+F1 | Hoja con **todos** los atajos |
-| Super+Q | Cerrar ventana |
-| Super+F / Super+D | Pantalla completa / Maximizar |
-| Super+1…6, Super+← / → | Escritorios |
-| Super+Shift+S | Menú de capturas |
-| Super+Shift+D | Grabar pantalla |
-| Super+Shift+W | Cambiar fondo |
+| Super+T / Super+C | Editor de texto / Calculadora |
+| Ctrl+Shift+Esc | Monitor del sistema (btop) |
+| Super+Z | Ajustes de tema GTK |
+
+**Herramientas**
+
+| Teclas | Acción |
+|---|---|
+| Super+Shift+S | Menú de capturas (recorte, pantalla, ventana, lazo) |
+| Impr / Super+Impr | Captura de un recorte / de la pantalla completa |
+| Super+Shift+D | Grabar pantalla (el micrófono se prende desde la barra) |
+| Super+P | Selector de color (copia el código) |
 | Super+V | Historial del portapapeles |
-| Super+G | Modo consola |
-| Super+F12 / Super+F11 | Efecto CRT / curvatura |
-| Super+F10 | Silenciar / activar sonidos |
-| Super+L | Bloquear |
+| Super+A | Notificaciones |
+| Super+Shift+W | Cambiar fondo de pantalla |
+| Super+Menos / Más | Lupa: alejar / acercar |
+| Ctrl+Alt+Q | Escribir @ |
+
+**Ventanas**
+
+| Teclas | Acción |
+|---|---|
+| Super+Q | Cerrar ventana |
+| Super+F / Super+D | Pantalla completa / Maximizar (con barra) |
+| Super+Alt+Espacio | Flotante / en mosaico |
+| Super+J | Girar la división |
+| Super+Ctrl+Flechas | Mover el foco |
+| Super+Shift+Flechas | Mover la ventana |
+| Alt+Tab | Siguiente ventana |
+| Super+Clic izq / der | Arrastrar / cambiar tamaño |
+| Super+Esc | Forzar cierre (clic en la ventana) |
+
+**Escritorios**
+
+| Teclas | Acción |
+|---|---|
+| Super+1…6 | Ir al escritorio |
+| Super+← / → | Escritorio anterior / siguiente |
+| Super+↓ | Ir a un escritorio vacío |
+| Super+Rueda | Recorrer escritorios |
+| Super+Ctrl+Shift+1…6 | Llevar la ventana e ir |
+| Super+Shift+Alt+1…6 | Mandar la ventana sin ir |
+| Super+Ctrl+Shift+← / → | Ventana al escritorio de al lado |
+| Super+S / Super+Alt+S | Mostrar / ocultar el cajón · guardar la ventana en el cajón |
+
+**Efecto CRT y sistema**
+
+| Teclas | Acción |
+|---|---|
+| Super+F12 / Super+F11 | Prender / apagar el efecto · la curvatura |
+| Super+F1 | Hoja de atajos |
+| Super+G | Modo consola (o el botón Xbox del mando) |
+| Super+F10 | Silenciar / activar los sonidos |
+| Super+L | Bloquear pantalla |
 | Super+Shift+Supr | Apagar / reiniciar / salir |
+
+**Dentro del modo consola** (teclado; con mando, los botones equivalentes)
+
+| Teclas | Acción |
+|---|---|
+| Flechas o WASD | Moverse |
+| Enter / Espacio | Elegir (A) |
+| Esc / Retroceso | Volver (B) |
+| Tab, Q o E | Cambiar de sección: Recientes / Biblioteca |
+| Ctrl+F o / | Buscar en la biblioteca |
+| F / R | Filtro / orden (X / Y) |
 
 ## Dependencias
 
